@@ -9,7 +9,7 @@ export default function Header({ title }) {
       icon: "pi pi-fw pi-file",
       items: [
         {
-          label: "New",
+          label: "Upload",
           icon: "pi pi-fw pi-plus",
           items: [
             {
