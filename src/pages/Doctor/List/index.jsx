@@ -1,3 +1,3 @@
 export default function Doctor(){
-    return <div>    </div>
+    return <div>List</div>
 }
