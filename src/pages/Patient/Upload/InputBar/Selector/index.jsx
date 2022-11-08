@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Dropdown } from 'primereact/dropdown';
 import { Skeleton } from 'primereact/skeleton';
-import './DropdownDemo.css';
+import '../InputBar.css';
 
 export default function DropdownDemo() {
 
@@ -25,9 +25,8 @@ export default function DropdownDemo() {
 
 
     return (
-        <div className="dropdown-demo">
-            <div className="card">
-                <div className='option-text'></div>
+        <div className="card">
+            <div className="dropdown-demo">
                 <Dropdown value={selectedPosition} options={cities} onChange={onPositionChange} optionLabel="name" placeholder="請選擇項目" />
             </div>
         </div>

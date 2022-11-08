@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Calendar } from 'primereact/calendar';
-import './CalendarDemo.css';
+import '../InputBar.css';
 
 
 export default function CalendarDemo() {
@@ -26,7 +26,7 @@ export default function CalendarDemo() {
     maxDate.setFullYear(nextYear);
     
     return (
-        <div>
+        <div className='calendar-layout'>
             <div className="card calendar-demo">
                 <div className="p-fluid">
                     <div className="">

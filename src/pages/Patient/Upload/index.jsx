@@ -2,8 +2,10 @@ import React, { useState, useRef } from 'react';
 import { Steps } from 'primereact/steps';
 import { Toast } from 'primereact/toast';
 import Header from '../../../components/Header';
+import CalendarDemo from './InputBar/Calender';
+import DropdownDemo from './InputBar/Selector';
 import './Step/StepsDemo.css';
-import './upload.css'
+
 
 export default function Upload() {
     const [activeIndex, setActiveIndex] = useState(1);
@@ -33,15 +35,15 @@ export default function Upload() {
         <div>
             <Header title={"DEV[上傳頁面]"}/>
             <div className="steps-demo">
-            
                 <Toast ref={Toast}></Toast>
-            
+                
                 <div className="card">
                     {/* <Steps model={items} activeIndex={activeIndex} onSelect={(e) => setActiveIndex(e.index)} readOnly={false} /> */}
                     <Steps model={items} />
                 </div>
             </div>
+            <CalendarDemo />
+            <DropdownDemo />
         </div>
-        
     );
 }
