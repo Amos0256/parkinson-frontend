@@ -1,7 +1,7 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Menubar } from "primereact/menubar";
-
+import './header.css';
 export default function Header({ title }) {
   const items = [
     {
@@ -56,13 +56,13 @@ export default function Header({ title }) {
     },
   ];
   return (
-    <div>
+    <div className="header-demo">
       <Menubar
         model={items}
         start={
           <>
-            <span style={{marginRight:"20px", fontSize:"1.5rem"}}>{title}</span>
-            <InputText placeholder="Search" type="text" />
+            <span style={{marginRight:"20px", fontSize:"20px"}}>{title}</span>
+            {/* <InputText placeholder="Search" type="text" /> */}
           </>
         }
         end={<Button label="Logout" icon="pi pi-power-off" />}
