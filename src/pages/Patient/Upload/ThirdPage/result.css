@@ -1,0 +1,22 @@
+.result {
+    box-shadow: -5px 5px 10px rgba(0,0,0,0.1), 
+                5px 0 10px rgba(0,0,0,0.1);
+    margin-top: 150px;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    margin-right: auto;
+    margin-left: auto;
+    /* border: solid 1px #A6ADBA; */
+    background-color: #F8F9FA;
+    border-radius: 10px;
+    width: 500px;
+}
+.result-text {
+    box-sizing: content-box;
+    text-align: center;
+    width: 100%;
+    padding-top:50px;
+    padding-bottom: 50px;
+    color: #6C778D;
+}

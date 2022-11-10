@@ -1,16 +1,22 @@
 .button-step {
     display: flex;
+    display: flex;
     flex-direction: row;
-    margin-top: 100px;
     justify-content: space-between;
-    width: 35%;
+    /* flex-shrink: 1; */
+    width: 500px;
     margin-left: auto;
     margin-right: auto;
 } 
+.button-container {
+    position: absolute;
+    width: 100%;
+    bottom: 200px;
+}
 .button-step-first {
     display: flex;
     margin-top: 100px;
-    width: 35%;
+    
     justify-content: center;
     align-items: center;
     margin-right: auto;

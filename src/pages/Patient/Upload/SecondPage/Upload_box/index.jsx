@@ -88,8 +88,8 @@ export default function Upload_box() {
     const emptyTemplate = () => {
         return (
             <div className="upload-empty">
-                <img src={uploadImg} style={{height:'150px', color: 'gainsboro'}} alt='upload-img'/>
-                <span style={{'fontSize': '1.2em', color: 'var(--text-color-secondary)'}} className="my-5"> 請拖移影片至此</span>
+                <img src={uploadImg} style={{height:'125px', color: 'gainsboro'}} alt='upload-img'/>
+                <span style={{'fontSize': '1em', color: 'var(--text-color-secondary)'}} className="my-5"> 請拖移影片至此</span>
             </div>
         )
     }

@@ -8,6 +8,9 @@
 .p-fileupload-content {
     height: 250px;
 }
+.p-fileupload-buttonbar {
+    height: 70px;
+}
 .upload-empty {
     display: flex;
     flex-direction: column;

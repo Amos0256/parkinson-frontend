@@ -4,19 +4,29 @@ import SecondPage from "../SecondPage";
 import ThirdPage from "../ThirdPage";
 import { Button } from 'primereact/button';
 
-import { CurrentStep } from '../index.jsx'
-import '../Button/button.css';
-
+import { stepContext } from "../stepContext";
 
 export default function ShowPage() {
     
-    const step = useContext(CurrentStep)
+    const msg = useContext(stepContext)
 
     return (
         <div>
-            {/* step: {step} */}
-            <FirstPage />
-            {/* <SecondPage/> */}
+            <div>
+                {msg.Step}
+            </div>
+            <div className="page">
+            {(() => {
+                if(msg.Step === 0) {
+                    return <FirstPage />
+                } else if(msg.Step === 1) {
+                    return <SecondPage />
+                } else {
+                    return <ThirdPage />
+                }
+            })()}   
+            </div>
+            
         </div>
     );
 }
