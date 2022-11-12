@@ -2,13 +2,13 @@ import React, { useState, useRef, createContext, Children } from 'react';
 import { Steps } from 'primereact/steps';
 import { Toast } from 'primereact/toast'; 
 import { Button } from 'primereact/button';
+import {Link} from 'react-router-dom';
 
 import { stepContext } from './stepContext';
 import Header from '../../../components/Header';
 import ShowPage from './ShowPage';
-import './Step/StepsDemo.css';
-import './Button/button.css';
-
+import './StepsDemo.css';
+import './layout.css'
 
 export default function Upload() {
     
@@ -21,6 +21,9 @@ export default function Upload() {
     }
     function BacktoFirstPage() {
         setStep(Step => 0)
+    }
+    function CheckButton() {
+        <Link to={'/patient/list'}></Link>
     }
     
 
@@ -61,43 +64,49 @@ export default function Upload() {
             
             {/* first page */}
             {/* <ShowPage /> */}
+            <div className="main-func">
             <stepContext.Provider value={{Step, setStep}}>
                 <ShowPage />
             </stepContext.Provider>
-            <div className='button-container'>
-            <div>
-                {(() => {
-                    if(Step === 0) {
-                         return <Button className="button-step-first" label="下一步" onClick={nextPage} icon="pi pi-angle-right" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/> 
-                    } else if(Step === 1) {
-                         return (
-                            <div className="button-step">
-                                <React.Fragment>
-                                    <Button label="上一步" onClick={prePage} icon="pi pi-angle-left" iconPos="left" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
-                                    <Button label="下一步" onClick={nextPage} icon="pi pi-angle-right" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
-                                </React.Fragment>
-                            </div>
-                        );
-                    } else {
-                        return (
-                            <div className="button-step">
-                                <React.Fragment>  
-                                    <Button label="確認" onClick={prePage} icon="pi pi-check" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
-                                    <Button label="重新上傳" onClick={BacktoFirstPage} icon="pi pi-replay" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
-                                </React.Fragment>
-                            </div>
-                        );
-                    }
-                })()}       
             </div>
+        
+            <div className='button-layout'>
+                <div>
+                    {(() => {
+                        if(Step === 0) {
+                            return (
+                                <div className="button-step-first">
+                                    <Button label="下一步" onClick={nextPage} icon="pi pi-angle-right" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/> 
+                                </div>
+                            )                         
+                        } else if(Step === 1) {
+                            return (
+                                <div className="button-step">
+                                    <React.Fragment>
+                                    
+                                            <Button label="上一步" onClick={prePage} icon="pi pi-angle-left" iconPos="left" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
+                                            <Button label="下一步" onClick={nextPage} icon="pi pi-angle-right" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
+ 
+                                    </React.Fragment>
+                                </div>
+                            );
+                        } else {
+                            return (
+                                <div className="button-step">
+                                    <React.Fragment>  
+                                        <Button label="確認" onClick={CheckButton} icon="pi pi-check" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
+                                        <Button label="重新上傳" onClick={BacktoFirstPage} icon="pi pi-replay" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
+                                    </React.Fragment>
+                                </div>
+                            );
+                        }
+                    })()}       
+                </div>
             </div>
             
             {/* <Upload_box /> */}
             {/* second page */}
             {/* third page */}
-            
-            
-            
         </div>
     );
 }

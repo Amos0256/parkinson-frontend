@@ -5,16 +5,12 @@ import ThirdPage from "../ThirdPage";
 import { Button } from 'primereact/button';
 
 import { stepContext } from "../stepContext";
-
 export default function ShowPage() {
     
     const msg = useContext(stepContext)
 
     return (
         <div>
-            <div>
-                {msg.Step}
-            </div>
             <div className="page">
             {(() => {
                 if(msg.Step === 0) {

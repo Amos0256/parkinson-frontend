@@ -1,9 +1,6 @@
 /* StepsDemo.css */
 
 @media screen and (max-width: 640px) {
-    .steps-demo .p-steps {
-        height: 350px;
-    }
     .steps-demo .p-steps > ul {
         flex-direction: column;
         height: 100%;

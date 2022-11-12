@@ -6,6 +6,8 @@ import { Button } from 'primereact/button';
 import { Tooltip } from 'primereact/tooltip';
 import { Tag } from 'primereact/tag';
 import uploadImg from "./cloud-computing.png";
+import folder from "./folder.png";
+import trash from "./recycle-bin.png";
 
 import "./UploadBox.css";
 
@@ -89,7 +91,7 @@ export default function Upload_box() {
         return (
             <div className="upload-empty">
                 <img src={uploadImg} style={{height:'125px', color: 'gainsboro'}} alt='upload-img'/>
-                <span style={{'fontSize': '1em', color: 'var(--text-color-secondary)'}} className="my-5"> 請拖移影片至此</span>
+                <span style={{'fontSize': '1em', color: 'var(--text-color-secondary)'}} className="my-5"> 請選擇上傳影片</span>
             </div>
         )
     }
@@ -106,7 +108,14 @@ export default function Upload_box() {
         }
     }
 
-    const chooseOptions = {icon: 'pi pi-fw pi-video', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined'};
+     const chooseOptions = {icon: 'pi pi-fw pi-video', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined'};
+    // const chooseOptions = () => {
+    //     return(
+    //         <div>
+    //             <img src={folder} style={{height: '100px'}} alt='folder-img'/>     
+    //         </div>
+    //     );
+    // }
     // const uploadOptions = {icon: 'pi pi-fw pi-cloud-upload', iconOnly: true, className: 'custom-upload-btn p-button-success p-button-rounded p-button-outlined'};
     const cancelOptions = {icon: 'pi pi-fw pi-trash', iconOnly: true, className: 'custom-cancel-btn p-button-danger p-button-rounded p-button-outlined'};
 
