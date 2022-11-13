@@ -1,6 +1,7 @@
-import Header from "../../components/Header";
-import Table from "../../components/Table";
-import DialogDemo from "../../components/Dialog";
+import Header from "./Header";
+import Table from "./Table";
+import DialogDemo from "./Dialog";
+import "./index.css"
 
 export default function Doctor() {
   return (

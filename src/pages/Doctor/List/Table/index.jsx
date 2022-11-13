@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
 import { Calendar } from 'primereact/calendar';
 import { Slider } from 'primereact/slider';
-import { PatientService } from '../PatientService'
+import { PatientService } from 'components/PatientService'
 import moment from "moment";
 
 export default function Table({ title }) {
@@ -22,13 +22,44 @@ export default function Table({ title }) {
     });
     
     const [globalFilterValue, setGlobalFilterValue] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const patientService = new PatientService();
-
-    useEffect(() => {
-        patientService.getPatientsLarge().then(data => { setPatients(getPatients(data)); setLoading(false) });
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+    const datalist =
+    [
+        {
+            "id": 1000,
+            "name": "James Butt",
+            "date": "2015-09-13",
+            "lastUpload":"2015-09-13 21:30", 
+            "verified": true,
+            "activity": 17
+        },
+        {
+            "id": 1001,
+            "name": "Josephine Darakjy",
+            "date": "2019-02-09",
+            "lastUpload":"2019-02-09 21:30", 
+            "verified": true,
+            "activity": 0
+        },
+        {
+            "id": 1117,
+            "name": "Brandon Callaro",
+            "date": "2016-07-13",
+            "lastUpload":"2016-07-13 21:30", 
+            "verified": true,
+            "activity": 55
+        },
+        {
+            "id": 1118,
+            "name": "Scarlet Cartan",
+            "date": "2018-09-13",
+            "lastUpload":"2018-09-13 21:30", 
+            "verified": false,
+            "activity": 1
+        }
+    ];
+    
     const getPatients = (data) => {
         return [...data || []].map(d => {
             d.date = new Date(d.date);
@@ -37,11 +68,11 @@ export default function Table({ title }) {
     }
 
     const formatDate = (value) => {
-        return value.toLocaleDateString({
-            day: '2-digit',
-            month: '2-digit',
+        return new Date(value).toLocaleDateString('zh-TW', {
             year: 'numeric',
-        });
+            month: '2-digit',
+            day: '2-digit'
+          });
     }
     const formatTime = (value) => {
         return moment(value).format("YYYY/MM/D, HH:mm");
@@ -102,7 +133,7 @@ export default function Table({ title }) {
     }
 
     const actionBodyTemplate = () => {
-        return <Button label="檢視結果" className='button-test'></Button>;
+        return <Button label="檢視結果" style={{ background: '#f8f9fa', border: '0px' }} className='button-test'></Button>;
     }
 
     const header = renderHeader();
@@ -110,7 +141,7 @@ export default function Table({ title }) {
     return(
         <div className="datatable-doc-demo">
             <div className="card">
-                <DataTable value={patients} style={{padding: '10px' }} paginator className="p-datatable-customers" header={header} rows={10}
+                <DataTable value={datalist} style={{padding: '10px' }} paginator className="p-datatable-customers" header={header} rows={10}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" rowsPerPageOptions={[10,25,50]}
                     dataKey="id" rowHover selection={selectedPatients} onSelectionChange={e => setSelectedPatients(e.value)}
                     filters={filters} filterDisplay="menu" loading={loading} responsiveLayout="scroll"

@@ -1,0 +1,10 @@
+
+.p-button-label, .p-c
+{
+  color:rgb(82, 79, 79);
+}
+
+.button-test:hover
+{
+  background-color: #4FC0FF !important; 
+}

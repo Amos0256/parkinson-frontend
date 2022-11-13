@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import {Link} from 'react-router-dom';
 
 import { stepContext } from './stepContext';
-import Header from '../../../components/Header';
+import Header from '../../Doctor/List/Header';
 import ShowPage from './ShowPage';
 import './StepsDemo.css';
 import './layout.css'
