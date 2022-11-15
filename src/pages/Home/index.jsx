@@ -1,5 +1,5 @@
 import { Button } from 'primereact/button';
-import Header from "../Doctor/List/Header";
+import Header from "../../components/Header";
 
 export default function Home() {
   return (

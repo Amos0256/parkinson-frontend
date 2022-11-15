@@ -1,4 +1,4 @@
-import Header from "./Header";
+import Header from "../../../components/Header";
 import Table from "./Table";
 import DialogDemo from "./Dialog";
 

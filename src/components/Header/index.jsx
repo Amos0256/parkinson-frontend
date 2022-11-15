@@ -4,7 +4,7 @@ import { SplitButton } from 'primereact/splitbutton';
 import { Toolbar } from 'primereact/toolbar';
 
 export default function Header({ title }) {
-  require("../index.css");
+  require("pages/Doctor/List/index.css");
   const info = [
     {
       label:'個人資料',
