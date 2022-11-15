@@ -1,10 +1,45 @@
+body {
+  display: block;
+  margin: 8px !important;
+}
 
 .p-button-label, .p-c
 {
   color:rgb(82, 79, 79);
 }
 
+.inputtext-test
+{
+  margin-top: 5px;
+  position: relative;
+}
+
 .button-test:hover
 {
   background-color: #4FC0FF !important; 
+}
+
+.p-progressbar-determinate .p-progressbar-value {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  display: none;
+  border: 0 none;
+  display: flex;
+  align-items: unset !important;
+  justify-content: unset !important; 
+  overflow: visible !important;
+}
+
+.p-progressbar-determinate .p-progressbar-label {
+  display: block !important;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  font-weight: bold;
+}
+.p-dropdown
+{
+  width: auto !important;
 }

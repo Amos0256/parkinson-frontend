@@ -27,35 +27,27 @@ export default function Table({ title }) {
     const datalist =
     [
         {
-            "id": 1000,
             "name": "James Butt",
             "date": "2015-09-13",
             "lastUpload":"2015-09-13 21:30", 
-            "verified": true,
             "activity": 17
         },
         {
-            "id": 1001,
             "name": "Josephine Darakjy",
             "date": "2019-02-09",
             "lastUpload":"2019-02-09 21:30", 
-            "verified": true,
             "activity": 0
         },
         {
-            "id": 1117,
             "name": "Brandon Callaro",
             "date": "2016-07-13",
             "lastUpload":"2016-07-13 21:30", 
-            "verified": true,
             "activity": 55
         },
         {
-            "id": 1118,
             "name": "Scarlet Cartan",
             "date": "2018-09-13",
             "lastUpload":"2018-09-13 21:30", 
-            "verified": false,
             "activity": 1
         }
     ];
@@ -116,7 +108,7 @@ export default function Table({ title }) {
     }
 
     const activityBodyTemplate = (rowData) => {
-        return <ProgressBar value={rowData.activity} color='#4FC0FF'displayValueTemplate={displayValueTemplate}></ProgressBar>;
+        return <ProgressBar value={rowData.activity} color='#4FC0FF' displayValueTemplate={displayValueTemplate}></ProgressBar>;
     }
 
 
