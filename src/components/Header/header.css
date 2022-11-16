@@ -1,0 +1,17 @@
+
+body {
+    display: block;
+    margin: 8px !important;
+}
+
+.header-button .p-button
+{
+    background: #f8f9fa !important;
+    border: 0;
+}
+
+.header-button .p-c
+{
+    background: transparent;
+    color: rgb(82, 79, 79) !important;
+}

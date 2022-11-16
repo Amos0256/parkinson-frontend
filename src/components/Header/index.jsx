@@ -2,9 +2,9 @@ import { Button } from "primereact/button";
 import { Menubar } from "primereact/menubar";
 import { SplitButton } from 'primereact/splitbutton';
 import { Toolbar } from 'primereact/toolbar';
+import "./header.css";
 
 export default function Header({ title }) {
-  require("pages/Doctor/List/index.css");
   const info = [
     {
       label:'個人資料',
@@ -16,7 +16,7 @@ export default function Header({ title }) {
     }
   ];
 const start = <img alt="logo" src={require("./parkinson.png")} height="40"></img>;
-const end = <SplitButton label="醫師姓名" icon="pi pi-user" model={info} style={{ color: 'rgb(82, 79, 79)' }} className="p-button-text p-button-info mr-2 mb-2"></SplitButton>
+const end = <SplitButton label="醫師姓名" icon="pi pi-user" model={info} className="header-button"/>
     return (
         <div>
             <div className="card">
