@@ -1,8 +1,8 @@
-import React, { useState, useRef, createContext, Children } from 'react';
+import React, { useState, useRef } from 'react';
 import { Steps } from 'primereact/steps';
 import { Toast } from 'primereact/toast'; 
 import { Button } from 'primereact/button';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 import { stepContext } from './stepContext';
 import Header from '../../../components/Header';
@@ -11,7 +11,7 @@ import './StepsDemo.css';
 import './layout.css'
 
 export default function Upload() {
-    
+    const navigate = useNavigate();
     const [Step, setStep] = useState(0);
     function nextPage() {
         setStep(preStep => preStep + 1)
@@ -22,10 +22,9 @@ export default function Upload() {
     function BacktoFirstPage() {
         setStep(Step => 0)
     }
-    function CheckButton() {
-        <Link to={'/patient/list'}></Link>
+    function Confirm() {
+        navigate('/patient');
     }
-    
 
     const toast = useRef(null);
     const items = [
@@ -94,7 +93,7 @@ export default function Upload() {
                             return (
                                 <div className="button-step">
                                     <React.Fragment>  
-                                        <Button label="確認" onClick={CheckButton} icon="pi pi-check" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
+                                        <Button label="確認" onClick={Confirm} icon="pi pi-check" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
                                         <Button label="重新上傳" onClick={BacktoFirstPage} icon="pi pi-replay" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
                                     </React.Fragment>
                                 </div>
@@ -103,10 +102,6 @@ export default function Upload() {
                     })()}       
                 </div>
             </div>
-            
-            {/* <Upload_box /> */}
-            {/* second page */}
-            {/* third page */}
         </div>
     );
 }

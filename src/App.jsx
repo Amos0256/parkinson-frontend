@@ -1,15 +1,16 @@
 import logo from "./logo.svg";
 import Home from "./pages/Home";
 import Doctor from "./pages/Doctor/List";
-import Patient from "pages/Patient/List";
+import Patient from "./pages/Patient/List";
+import Upload from "./pages/Patient/Upload";
 
 import {
   createBrowserRouter,
   RouterProvider,
   Route,
   Link,
+  useNavigate
 } from "react-router-dom";
-import Upload from "pages/Patient/Upload";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,8 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  
+  
   return <RouterProvider router={router} />;
 }
 

@@ -25,6 +25,7 @@ export default function DropdownDemo() {
     return (
         <div className="card">
             <div className="dropdown-demo">
+                <div className='space'>項目</div>
                 <Dropdown value={selectedPosition} options={handPos} onChange={onPositionChange} optionLabel="name" placeholder="請選擇項目" />
             </div>
         </div>
