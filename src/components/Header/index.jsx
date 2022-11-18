@@ -3,6 +3,7 @@ import { Menubar } from "primereact/menubar";
 import { SplitButton } from 'primereact/splitbutton';
 import { Toolbar } from 'primereact/toolbar';
 import "./header.css";
+import icon from "./parkinson.png"
 
 export default function Header({ title }) {
   const info = [
@@ -15,7 +16,7 @@ export default function Header({ title }) {
       icon:'pi pi-fw pi-power-off'
     }
   ];
-const start = <img alt="logo" src={require("./parkinson.png")} height="40"></img>;
+const start = <img alt="logo" src={icon} height="40"></img>;
 const end = <SplitButton label="醫師姓名" icon="pi pi-user" model={info} className="header-button"/>
     return (
         <div>
