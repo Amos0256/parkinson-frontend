@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { FilterMatchMode, FilterOperator } from "primereact/api";
+import React, { useState } from "react";
+import { FilterMatchMode } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
-import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
-import { ProgressBar } from "primereact/progressbar";
 import { Calendar } from "primereact/calendar";
-import { MultiSelect } from "primereact/multiselect";
-import { Slider } from "primereact/slider";
-
 const exams = [
   {
-    exam: "手指拍打",
+    exam: '抬腳',
     date: new Date(2022, 11, 10),
     result: "(左手)20次 (右手)19次",
     status: 3,
     feedback: "未發現異常",
   },
   {
-    exam: "手指拍打",
+    exam: '手部抓握',
     date: new Date(2022, 11, 12),
     result: "",
     status: 1,
@@ -34,7 +29,7 @@ const exams = [
     feedback: "",
   },
   {
-    exam: "手指拍打",
+    exam: '手掌翻面',
     date: new Date(),
     result: "",
     status: 0,
@@ -42,10 +37,16 @@ const exams = [
   },
 ];
 
-const matchModes = [{ label: "包含", value: FilterMatchMode.CONTAINS }];
+const matchContainModes = [{ label: "包含", value: FilterMatchMode.CONTAINS }];
+const matchEqualModes = [{ label: "等於", value: FilterMatchMode.EQUALS }];
+const matchDateModes = [
+  { label: "等於", value: FilterMatchMode.DATE_IS },
+  { label: "不等於", value: FilterMatchMode.DATE_IS_NOT },
+  { label: "早於", value: FilterMatchMode.DATE_BEFORE },
+  { label: "晚於", value: FilterMatchMode.DATE_AFTER },
+];
 
 export default function ExamDataTable() {
-  // const [exams, setCustomers] = useState(null);
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     name: {
@@ -54,36 +55,20 @@ export default function ExamDataTable() {
     date: {
       constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
     },
-    lastUpload: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
+    status: {
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
     },
-    activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
   });
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const [loading, setLoading] = useState(true);
 
   const statuses = ["待檢測", "未處裡", "待檢閱", "已檢閱"];
 
-  const getCustomers = (data) => {
-    return [...(data || [])].map((d) => {
-      d.date = new Date(d.date);
-      return d;
-    });
-  };
-
   const formatDate = (value) => {
     return value.toLocaleDateString("zh-TW", {
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
-    });
-  };
-
-  const formatCurrency = (value) => {
-    return value.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
     });
   };
 
@@ -152,7 +137,6 @@ export default function ExamDataTable() {
           color: colors[status],
           padding: "5px",
         }}
-        className={`customer-badge`}
       >
         {statuses[status]}
       </span>
@@ -163,18 +147,38 @@ export default function ExamDataTable() {
     return (
       <Dropdown
         value={options.value}
-        options={statuses}
+        optionLabel="title"
+        options={statuses.map((title, i) => ({ title, value: i }))}
         onChange={(e) => options.filterCallback(e.value, options.index)}
         itemTemplate={statusItemTemplate}
-        placeholder="Select a Status"
-        className="p-column-filter"
+        placeholder="選擇檢測狀態"
         showClear
       />
     );
   };
 
+  const filterClearTemplate = (options) => {
+    return (
+      <Button
+        type="button"
+        onClick={options.filterClearCallback}
+        className="p-button-secondary p-button-text"
+      >
+        取消
+      </Button>
+    );
+  };
+
+  const filterApplyTemplate = (options) => {
+    return (
+      <Button type="button" onClick={options.filterApplyCallback}>
+        篩選
+      </Button>
+    );
+  };
+
   const statusItemTemplate = (option) => {
-    return <span className={`customer-badge status-${option}`}>{option}</span>;
+    return statusBodyTemplate({ status: option.value });
   };
 
   const feedbackBodyTemplate = (rowData) => {
@@ -206,7 +210,9 @@ export default function ExamDataTable() {
             filter
             body={examBodyTemplate}
             filterPlaceholder="篩選檢測項目"
-            filterMatchModeOptions={matchModes}
+            filterMatchModeOptions={matchContainModes}
+            filterApply={filterApplyTemplate}
+            filterClear={filterClearTemplate}
           />
           <Column
             field="date"
@@ -217,6 +223,9 @@ export default function ExamDataTable() {
             filter
             filterElement={dateFilterTemplate}
             filterPlaceholder="篩選時間"
+            filterMatchModeOptions={matchDateModes}
+            filterApply={filterApplyTemplate}
+            filterClear={filterClearTemplate}
           />
           <Column field="result" header="次數" body={resultTemp} />
 
@@ -227,6 +236,9 @@ export default function ExamDataTable() {
             body={statusBodyTemplate}
             filter
             filterElement={statusFilterTemplate}
+            filterMatchModeOptions={matchEqualModes}
+            filterApply={filterApplyTemplate}
+            filterClear={filterClearTemplate}
           />
           <Column
             field="feedback"
