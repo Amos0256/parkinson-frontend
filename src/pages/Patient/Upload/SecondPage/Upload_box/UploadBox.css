@@ -17,3 +17,9 @@
     align-items: center;
     justify-items: center;
 }
+.filepond-upload {
+    margin-top: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

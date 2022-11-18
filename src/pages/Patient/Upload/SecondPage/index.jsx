@@ -3,12 +3,14 @@ import Upload_box from "./Upload_box"
 import { FilePond, registerPlugin } from "filepond";
 
 import 'filepond/dist/filepond.min.css';
+import FileUpload from "./Upload_box/filepond";
+
 
 export default function SecondPage() {
     return (
         <div>
-            {/* <FilePond allowMultiple={true} maxFiles={3} server="/api" /> */}
-            <Upload_box />
+            <FileUpload />
+            {/* <Upload_box /> */}
         </div>
     );
 }

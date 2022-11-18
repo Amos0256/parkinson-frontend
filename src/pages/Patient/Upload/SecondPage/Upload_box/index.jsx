@@ -48,13 +48,13 @@ export default function Upload_box() {
         setTotalSize(0);
     }
 
-    const onBasicUpload = () => {
-        toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode'});
-    }
+    // const onBasicUpload = () => {
+    //     toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded with Basic Mode'});
+    // }
 
-    const onBasicUploadAuto = () => {
-        toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded with Auto Mode'});
-    }
+    // const onBasicUploadAuto = () => {
+    //     toast.current.show({severity: 'info', summary: 'Success', detail: 'File Uploaded with Auto Mode'});
+    // }
 
     const headerTemplate = (options) => {
         const { className, chooseButton, cancelButton } = options;
