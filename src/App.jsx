@@ -1,41 +1,40 @@
-import Home from "./pages/Home";
-import Doctor from "./pages/Doctor/List";
-import Patient from "./pages/Patient/List";
-import Upload from "pages/Patient/Upload";
-import Login from "pages/Login";
-import EachPatient from "pages/Doctor/EachPatient";
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import AuthHost from 'components/AuthHost'
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Home />,
   },
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
   },
   {
-    path: "/doctor",
+    path: '/doctor',
     element: <Doctor />,
   },
   {
-    path: "/doctor/each",
+    path: '/doctor/each',
     element: <EachPatient />,
   },
   {
-    path: "/patient",
+    path: '/patient',
     element: <Patient />,
   },
   {
-    path: "/patient/upload",
+    path: '/patient/upload',
     element: <Upload />,
   },
-]);
+])
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <AuthHost>
+      <RouterProvider router={router} />
+    </AuthHost>
+  )
 }
 
-export default App;
+export default App
