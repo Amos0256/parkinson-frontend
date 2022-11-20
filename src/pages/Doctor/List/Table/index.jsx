@@ -5,9 +5,6 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
-import { Calendar } from 'primereact/calendar';
-import { Slider } from 'primereact/slider';
-import { PatientService } from 'components/PatientService'
 import moment from "moment";
 
 export default function Table({ title }) {
@@ -23,7 +20,6 @@ export default function Table({ title }) {
     
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     const [loading, setLoading] = useState(false);
-    const patientService = new PatientService();
     const datalist =
     [
         {
@@ -52,13 +48,6 @@ export default function Table({ title }) {
         }
     ];
     
-    const getPatients = (data) => {
-        return [...data || []].map(d => {
-            d.date = new Date(d.date);
-            return d;
-        });
-    }
-
     const formatDate = (value) => {
         return new Date(value).toLocaleDateString('zh-TW', {
             year: 'numeric',
@@ -87,8 +76,8 @@ export default function Table({ title }) {
     }
     const renderHeader = () => {
         return (
-            <div className="flex justify-content-between align-items-center">
-                <p style={{ font_size:'5px' }}>病患資料</p>
+            <div style={{display: "flex",justifyContent: "space-between",alignItems: "center"}}>
+                <h3 >病患資料</h3>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="關鍵字搜尋" />
@@ -103,29 +92,12 @@ export default function Table({ title }) {
         return formatTime(rowData.lastUpload);
     }
 
-    const dateFilterTemplate = (options) => {
-        return <Calendar value={options.value} onChange={(e) => options.filterCallback(e.value, options.index)} dateFormat="yy/mm/dd" placeholder="yyyy/mm/dd" mask="99/99/9999" />
-    }
-
     const activityBodyTemplate = (rowData) => {
-        return <ProgressBar value={rowData.activity} color='#4FC0FF' displayValueTemplate={displayValueTemplate}></ProgressBar>;
-    }
-
-
-    const activityFilterTemplate = (options) => {
-        return (
-            <React.Fragment>
-                <Slider value={options.value} onChange={(e) => options.filterCallback(e.value)} range className="m-3"></Slider>
-                <div className="flex align-items-center justify-content-between px-2">
-                    <span>{options.value ? options.value[0] : 0}</span>
-                    <span>{options.value ? options.value[1] : 100}</span>
-                </div>
-            </React.Fragment>
-        )
+        return <ProgressBar value={rowData.activity} showValue={1} color='#4FC0FF' displayValueTemplate={displayValueTemplate} ></ProgressBar>;
     }
 
     const actionBodyTemplate = () => {
-        return <Button label="檢視結果" style={{ background: '#f8f9fa', border: '0px' }} className='button-test'></Button>;
+        return <Button label="檢視結果" style={{ background: '#f8f9fa', color: 'rgb(82, 79, 79)', border: '0px' }} className='button-check'></Button>;
     }
 
     const header = renderHeader();
@@ -133,18 +105,15 @@ export default function Table({ title }) {
     return(
         <div className="datatable-doc-demo">
             <div className="card">
-                <DataTable value={datalist} style={{padding: '10px' }} paginator className="p-datatable-customers" header={header} rows={10}
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" rowsPerPageOptions={[10,25,50]}
+                <DataTable value={datalist} className="p-datatable-customers" header={header}
                     dataKey="id" rowHover selection={selectedPatients} onSelectionChange={e => setSelectedPatients(e.value)}
                     filters={filters} filterDisplay="menu" loading={loading} responsiveLayout="scroll"
                     globalFilterFields={['name']} emptyMessage="沒有任何患者資料"
                     currentPageReportTemplate="顯示 {first} 到 {last} (共 {totalRecords} 項) ">
-                    <Column field="name" header="姓名" sortable filter filterPlaceholder="Search by name" style={{ minWidth: '14rem' }} />
-                    <Column field="date" header="上次就診日期" sortable filterField="date" dataType="date" style={{ minWidth: '8rem' }} body={dateBodyTemplate}
-                        filter filterElement={dateFilterTemplate} />
-                    <Column field="date" header="最新影片上傳時間" sortable filterField="date" dataType="date" style={{ minWidth: '14rem' }} body={lastUploadBodyTemplate}
-                        filter filterElement={dateFilterTemplate} />
-                    <Column field="activity" header="完成進度" sortable showFilterMatchModes={false} style={{ minWidth: '10rem' }} body={activityBodyTemplate} filter filterElement={activityFilterTemplate} />
+                    <Column field="name" header="姓名" sortable style={{ minWidth: '14rem' }} />
+                    <Column field="date" header="上次就診日期" sortable filterField="date" dataType="date" style={{ minWidth: '8rem' }} body={dateBodyTemplate}/>
+                    <Column field="date" header="最新影片上傳時間" sortable filterField="date" dataType="date" style={{ minWidth: '14rem' }} body={lastUploadBodyTemplate} />
+                    <Column field="activity" header="完成進度" sortable style={{ minWidth: '10rem' }} body={activityBodyTemplate} />
                     <Column headerStyle={{ width: '10rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} body={actionBodyTemplate} />
                 </DataTable>
             </div>
