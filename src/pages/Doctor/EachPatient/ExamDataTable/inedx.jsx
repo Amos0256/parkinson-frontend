@@ -208,6 +208,7 @@ export default function ExamDataTable() {
             header="檢測項目"
             sortable
             filter
+            filterField="name"
             body={examBodyTemplate}
             filterPlaceholder="篩選檢測項目"
             filterMatchModeOptions={matchContainModes}
@@ -217,6 +218,7 @@ export default function ExamDataTable() {
           <Column
             field="date"
             header="上傳時間"
+            dataType="date"
             sortable
             filterField="date"
             body={timeBodyTemplate}
