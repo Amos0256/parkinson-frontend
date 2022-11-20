@@ -1,3 +1,3 @@
-import React, { useState, useRef, createContext } from 'react';
+import {createContext } from 'react';
 
 export const stepContext = createContext(null);

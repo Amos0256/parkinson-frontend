@@ -25,36 +25,31 @@ export default function Progress() {
   const [liftdisable, setLiftDisable] = useState(false);
 
   const navigate = useNavigate();
-  function uploadPage() {
-    navigate('/patient/upload');
-  }
 
-  const ExamContext = createContext();
+  function uploadPage(opt) {
+        navigate('/patient/upload',{
+          state: {
+            option: opt,
+          }
+        });
+  }
 
   const [examtype, setExamType] = useState("");
   function gripSelect() {
     setExamType(newtype => "grip");
-    paramSet();
+    uploadPage("grip");
   }
   function pinchSelect() {
     setExamType(newtype => "pinch");
-    paramSet();
+    uploadPage("pinch");
   }
   function turnSelect() {
     setExamType(newtype => "turn");
-    paramSet();
+    uploadPage("turn");
   }
   function liftSelect() {
     setExamType(newtype => "lift");
-    paramSet();
-  }
-
-  function paramSet() {
-    return (
-      <ExamContext.Provider value={ examtype }>
-        <DropdownDemo/>
-      </ExamContext.Provider>
-    );
+    uploadPage("lift");
   }
   
 
@@ -74,28 +69,28 @@ export default function Progress() {
           className="p-button-outlined"
           label="手部抓握"
           disabled={gripdisable}
-          onClick={() => {gripSelect(); uploadPage();}}
+          onClick={() => {gripSelect();}}
           style={{ marginRight: "0.5rem" }}
         />
         <Button
           className="p-button-outlined"
           label="手指捏握"
           disabled={pinchdisable}
-          onClick={() => {pinchSelect(); uploadPage();}}
+          onClick={() => {pinchSelect();}}
           style={{ marginRight: "0.5rem" }}
         />
         <Button 
           className="p-button-outlined"
           label="手掌翻面"
           disabled={turndisable}
-          onClick={() => {turnSelect(); uploadPage();}}
+          onClick={() => {turnSelect();}}
           style={{ marginRight: "0.5rem" }}
         />
         <Button
           className="p-button-outlined"
           label="抬腳"
           disabled={liftdisable}
-          onClick={() => {liftSelect(); uploadPage();}}
+          onClick={() => {liftSelect();}}
         />
       </div>
     </div>

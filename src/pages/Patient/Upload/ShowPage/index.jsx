@@ -2,7 +2,6 @@ import React, { useState, createContext, useContext} from "react";
 import FirstPage from "../FirstPage";
 import SecondPage from "../SecondPage";
 import ThirdPage from "../ThirdPage";
-import { Button } from 'primereact/button';
 
 import { stepContext } from "../stepContext";
 export default function ShowPage() {
@@ -12,15 +11,15 @@ export default function ShowPage() {
     return (
         <div>
             <div className="page">
-            {(() => {
-                if(msg.Step === 0) {
-                    return <FirstPage />
-                } else if(msg.Step === 1) {
-                    return <SecondPage />
-                } else {
-                    return <ThirdPage />
-                }
-            })()}   
+                {(() => {
+                    if(msg.Step === 0) {
+                        return <FirstPage />
+                    } else if(msg.Step === 1) {
+                        return <SecondPage />
+                    } else {
+                        return <ThirdPage />
+                    }
+                })()}   
             </div>
             
         </div>
