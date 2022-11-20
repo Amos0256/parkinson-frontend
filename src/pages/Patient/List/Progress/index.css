@@ -1,0 +1,12 @@
+.progressbar {
+  display: inline-block;
+  width: 30%;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  margin-right: 50px;
+  margin-left: 10px;
+}
+
+.waiting-exam {
+  display: inline-block;
+}

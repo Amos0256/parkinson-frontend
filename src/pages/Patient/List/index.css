@@ -1,9 +1,5 @@
-.progressbar {
-  width: 30%;
-  margin-top: 10px;
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-bottom: 25px;
+.progress {
+  width: 100%;
 }
 
 .datatable {
