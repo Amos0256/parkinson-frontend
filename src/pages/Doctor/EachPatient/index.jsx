@@ -6,18 +6,20 @@ import { useNavigate } from "react-router-dom";
 import ExamDataTable from "./ExamDataTable/inedx";
 
 export default function EachPatient() {
-  const { loading, isLogin, logout, user } = useAuth();
+  const { loading, isLogin, user } = useAuth();
 
   const navgate = useNavigate();
+
   useEffect(() => {
+    if (loading) return;
     if (isLogin) {
-      if (user.roles[0].id === 1) {
-        navgate("/doctor");
+      if (user.roles[0].id === 2) {
+        navgate("/patient");
       }
     } else {
       navgate("/login");
     }
-  }, []);
+  }, [isLogin, loading]);
 
   return (
     <div>

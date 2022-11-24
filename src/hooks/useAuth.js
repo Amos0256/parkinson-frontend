@@ -49,7 +49,7 @@ export default function useAuth() {
   const navigate = useNavigate();
 
   function logout() {
-    setLoading(true)
+    setLoading(true);
     fetch("http://140.123.242.78/logout", {
       credentials: "include",
       headers: {
@@ -66,8 +66,15 @@ export default function useAuth() {
   }
 
   useEffect(() => {
-    // const user = localStorage.getItem("user");
-    // setUser(user);
+    const user = localStorage.getItem("user");
+    if (user) {
+      setLoading(false);
+      setLogin(true);
+      setUser(JSON.parse(user));
+    } else {
+      setLoading(false);
+      setLogin(true);
+    }
   }, []);
 
   function login(username, password) {
@@ -89,14 +96,17 @@ export default function useAuth() {
           if (res.status === 200) {
             return res.json();
           } else {
-            throw new Error("帳號/密碼錯誤或重複登入(後者的話按一下忘記密碼，可登出)");
+            throw new Error(
+              "帳號/密碼錯誤或重複登入(後者的話按一下忘記密碼，可登出)"
+            );
           }
         })
         .then((body) => {
           console.log(body);
+          localStorage.setItem("user", JSON.stringify(body))
           setUser(body);
-          setLoading(false)
-          setLogin(true)
+          setLoading(false);
+          setLogin(true);
           switch (body.roles[0].id) {
             case 1:
               alert("醫師[這只是提示/不是feature]");
