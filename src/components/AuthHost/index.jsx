@@ -4,7 +4,7 @@ import { useState } from 'react'
 export default function AuthHost({ children }) {
   const [loading, setLoading] = useState(true)
   const [isLogin, setLogin] = useState(false)
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState({})
 
   function clearInfo() {
     setLoading(false)

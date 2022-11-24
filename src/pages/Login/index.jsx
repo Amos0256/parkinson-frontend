@@ -2,10 +2,17 @@ import { InputText } from "primereact/inputtext";
 import { useState } from "react";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
+import useAuth, { AuthContext } from "hooks/useAuth";
+import { useContext } from "react";
 
 export default function Login() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
+  const { user, login, logout } = useAuth();
+
+  const context = useContext(AuthContext);
+  console.log(context);
   return (
     <div
       style={{
@@ -28,7 +35,11 @@ export default function Login() {
           <span className="p-inputgroup-addon">
             <i className="pi pi-user"></i>
           </span>
-          <InputText placeholder="身分證字號/醫師編號" />
+          <InputText
+            placeholder="身分證字號/醫師編號"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
         </div>
         <div className="p-inputgroup" style={{ marginTop: "20px" }}>
           <span className="p-inputgroup-addon">
@@ -49,11 +60,24 @@ export default function Login() {
           </span>
         </div>
         <div style={{ textAlign: "center", marginTop: "40px" }}>
-          <Button label="忘記密碼"  />
+          <Button
+            label="忘記密碼"
+            onClick={() => {
+              logout();
+            }}
+          />
         </div>
         <div style={{ textAlign: "center" }}>
-          <Button label="登入" icon="pi pi-arrow-right" iconPos="right" />
+          <Button
+            label="登入"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            onClick={() => {
+              login(username, password);
+            }}
+          />
         </div>
+        {JSON.stringify(user, " ")}
       </Card>
     </div>
   );
