@@ -1,18 +1,31 @@
 import { InputText } from "primereact/inputtext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import useAuth, { AuthContext } from "hooks/useAuth";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
-  const { user, login, logout } = useAuth();
+  const { user, login, logout, isLogin, loading } = useAuth();
 
-  const context = useContext(AuthContext);
-  console.log(context);
+  const navgate = useNavigate();
+
+  useEffect(() => {
+    if (loading) return;
+    if (isLogin) {
+      if (user.roles[0].id === 1) {
+        navgate("/doctor");
+      }
+      else if (user.roles[0].id === 2) {
+        navgate("/patient");
+      }
+    }
+  }, [isLogin, loading]);
+
   return (
     <div
       style={{

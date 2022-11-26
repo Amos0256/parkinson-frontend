@@ -41,16 +41,18 @@ export const AuthContext = createContext({
   user: def,
   setUser: anonymous,
   clearInfo: anonymous,
+  token: null,
+  setToken: anonymous
 });
 
 export default function useAuth() {
-  const { loading, setLoading, isLogin, setLogin, clearInfo, user, setUser } =
+  const { loading, setLoading, isLogin, setLogin, clearInfo, user, setUser, token, setToken } =
     useContext(AuthContext);
   const navigate = useNavigate();
 
   function logout() {
     setLoading(true);
-    fetch("http://140.123.242.78/logout", {
+    fetch("http://140.123.242.78/api/logout", {
       credentials: "include",
       headers: {
         accept: "application/json",
@@ -65,22 +67,10 @@ export default function useAuth() {
     });
   }
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setLoading(false);
-      setLogin(true);
-      setUser(JSON.parse(user));
-    } else {
-      setLoading(false);
-      setLogin(true);
-    }
-  }, []);
-
   function login(username, password) {
     setLoading(true);
     return new Promise((resolve, reject) => {
-      fetch("http://140.123.242.78/login", {
+      fetch("http://140.123.242.78/api/login", {
         credentials: "include",
         headers: {
           accept: "application/json",
@@ -101,13 +91,14 @@ export default function useAuth() {
             );
           }
         })
-        .then((body) => {
-          console.log(body);
-          localStorage.setItem("user", JSON.stringify(body))
-          setUser(body);
+        .then(({ user, token }) => {
+          localStorage.setItem("user", JSON.stringify(user))
+          localStorage.setItem("token", token)
+          setUser(user);
+          setToken(token)
           setLoading(false);
           setLogin(true);
-          switch (body.roles[0].id) {
+          switch (user.roles[0].id) {
             case 1:
               alert("醫師[這只是提示/不是feature]");
               navigate("/doctor");
