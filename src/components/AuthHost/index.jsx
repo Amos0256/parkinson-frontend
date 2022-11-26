@@ -37,6 +37,7 @@ export default function AuthHost({ children }) {
         setLoading(false);
         setLogin(true);
         setUser(json);
+        setToken(token)
         setLogin(true);
         localStorage.setItem("user", JSON.stringify(user))
       }).catch((e) => {
