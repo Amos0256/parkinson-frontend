@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     element: <Doctor />,
   },
   {
-    path: '/doctor/each',
+    path: '/doctor/each/:id',
     element: <EachPatient />,
   },
   {
@@ -32,7 +32,7 @@ const router = createBrowserRouter([
   {
     path: '/patient/upload',
     element: <Upload />,
-  },
+  }
 ])
 
 function App() {
