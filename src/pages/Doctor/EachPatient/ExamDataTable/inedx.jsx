@@ -8,14 +8,14 @@ import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 const exams = [
   {
-    exam: '抬腳',
+    exam: "抬腳",
     date: new Date(2022, 11, 10),
     result: "(左手)20次 (右手)19次",
     status: 3,
     feedback: "未發現異常",
   },
   {
-    exam: '手部抓握',
+    exam: "手部抓握",
     date: new Date(2022, 11, 12),
     result: "",
     status: 1,
@@ -29,7 +29,7 @@ const exams = [
     feedback: "",
   },
   {
-    exam: '手掌翻面',
+    exam: "手掌翻面",
     date: new Date(),
     result: "",
     status: 0,
@@ -46,7 +46,7 @@ const matchDateModes = [
   { label: "晚於", value: FilterMatchMode.DATE_AFTER },
 ];
 
-export default function ExamDataTable() {
+export default function ExamDataTable({ data }) {
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     name: {
@@ -65,11 +65,13 @@ export default function ExamDataTable() {
   const statuses = ["待檢測", "未處裡", "待檢閱", "已檢閱"];
 
   const formatDate = (value) => {
-    return value.toLocaleDateString("zh-TW", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
+    return value
+      ? value.toLocaleDateString("zh-TW", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+      : "N/A";
   };
 
   const onGlobalFilterChange = (e) => {
@@ -107,8 +109,8 @@ export default function ExamDataTable() {
     return <React.Fragment>{result}</React.Fragment>;
   };
 
-  const examBodyTemplate = ({ exam }) => {
-    return exam;
+  const examBodyTemplate = ({ category }) => {
+    return category;
   };
 
   const timeBodyTemplate = ({ date }) => {
@@ -128,17 +130,22 @@ export default function ExamDataTable() {
   };
 
   const statusBodyTemplate = ({ status }) => {
+    const map = {
+      未處理: 1,
+      待檢閱: 2,
+      已檢閱: 3,
+    };
     const bgcolors = ["#CFCFCF", "#FFD8B2", "#B3E5FC", "#C8E6C9"];
     const colors = ["#6F6F6F", "#805B36", "#23547B", "#346C37"];
     return (
       <span
         style={{
-          backgroundColor: bgcolors[status],
-          color: colors[status],
+          backgroundColor: bgcolors[map[status]],
+          color: colors[map[status]],
           padding: "5px",
         }}
       >
-        {statuses[status]}
+        {status}
       </span>
     );
   };
@@ -181,8 +188,8 @@ export default function ExamDataTable() {
     return statusBodyTemplate({ status: option.value });
   };
 
-  const feedbackBodyTemplate = (rowData) => {
-    return rowData.feedback;
+  const feedbackBodyTemplate = ({doctor_comment}) => {
+    return doctor_comment;
   };
 
   const header = renderHeader();
@@ -191,7 +198,7 @@ export default function ExamDataTable() {
     <div className="datatable-doc-demo">
       <div className="card">
         <DataTable
-          value={exams}
+          value={data}
           header={header}
           rows={10}
           dataKey="id"
@@ -204,11 +211,11 @@ export default function ExamDataTable() {
           emptyMessage="尚未有完成的檢測"
         >
           <Column
-            field="name"
+            field="category"
             header="檢測項目"
             sortable
             filter
-            filterField="name"
+            filterField="category"
             body={examBodyTemplate}
             filterPlaceholder="篩選檢測項目"
             filterMatchModeOptions={matchContainModes}

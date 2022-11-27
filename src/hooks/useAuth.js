@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "utils/api";
 
 const anonymous = () => null;
 
@@ -42,12 +43,21 @@ export const AuthContext = createContext({
   setUser: anonymous,
   clearInfo: anonymous,
   token: null,
-  setToken: anonymous
+  setToken: anonymous,
 });
 
 export default function useAuth() {
-  const { loading, setLoading, isLogin, setLogin, clearInfo, user, setUser, token, setToken } =
-    useContext(AuthContext);
+  const {
+    loading,
+    setLoading,
+    isLogin,
+    setLogin,
+    clearInfo,
+    user,
+    setUser,
+    token,
+    setToken,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
 
   function logout() {
@@ -56,7 +66,7 @@ export default function useAuth() {
       credentials: "include",
       headers: {
         accept: "application/json",
-        authorization: "Bearer",
+        authorization: "Bearer" + token,
         "content-type": "application/json;charset=UTF-8",
         "x-csrf-token": "",
       },
@@ -69,52 +79,33 @@ export default function useAuth() {
 
   function login(username, password) {
     setLoading(true);
-    return new Promise((resolve, reject) => {
-      fetch("http://140.123.242.78/api/login", {
-        credentials: "include",
-        headers: {
-          accept: "application/json",
-          "content-type": "application/json;charset=UTF-8",
-        },
-        body: JSON.stringify({
-          personal_id: username,
-          password,
-        }),
-        method: "POST",
+    return api("login", "POST", {
+      personal_id: username,
+      password,
+    })
+      .then(({ user, token }) => {
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
+        setUser(user);
+        setToken(token);
+        setLoading(false);
+        setLogin(true);
+        switch (user.roles[0].id) {
+          case 1:
+            alert("醫師[這只是提示/不是feature]");
+            navigate("/doctor");
+            break;
+          case 2:
+            alert("病患[這只是提示/不是feature]");
+            navigate("/patient");
+            break;
+          default:
+            alert("出事了");
+        }
       })
-        .then((res) => {
-          if (res.status === 200) {
-            return res.json();
-          } else {
-            throw new Error(
-              "帳號/密碼錯誤或重複登入(後者的話按一下忘記密碼，可登出)"
-            );
-          }
-        })
-        .then(({ user, token }) => {
-          localStorage.setItem("user", JSON.stringify(user))
-          localStorage.setItem("token", token)
-          setUser(user);
-          setToken(token)
-          setLoading(false);
-          setLogin(true);
-          switch (user.roles[0].id) {
-            case 1:
-              alert("醫師[這只是提示/不是feature]");
-              navigate("/doctor");
-              break;
-            case 2:
-              alert("病患[這只是提示/不是feature]");
-              navigate("/patient");
-              break;
-            default:
-              alert("出事了");
-          }
-        })
-        .catch((e) => {
-          alert(e);
-        });
-    });
+      .catch((e) => {
+        alert(e);
+      });
   }
 
   return { loading, isLogin, login, logout, user };
