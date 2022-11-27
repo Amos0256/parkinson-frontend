@@ -10,7 +10,7 @@ export default function FirstPage () {
     const [value, setValue] = useState('');
     return (
         <div>
-            <span>add ALERT feature!</span>
+            {/* <span>add ALERT feature!</span> */}
             <CalendarDemo />
             
             <div className="card inputtext-demo">

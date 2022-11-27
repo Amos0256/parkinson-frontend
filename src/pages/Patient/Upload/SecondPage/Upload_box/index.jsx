@@ -6,8 +6,7 @@ import { Button } from 'primereact/button';
 import { Tooltip } from 'primereact/tooltip';
 import { Tag } from 'primereact/tag';
 import uploadImg from "./cloud-computing.png";
-import folder from "./folder.png";
-import trash from "./recycle-bin.png";
+
 
 import "./UploadBox.css";
 
@@ -90,7 +89,7 @@ export default function Upload_box() {
     const emptyTemplate = () => {
         return (
             <div className="upload-empty">
-                <img src={uploadImg} style={{height:'125px', color: 'gainsboro'}} alt='upload-img'/>
+                {/* <img src={uploadImg} style={{height:'125px', color: 'gainsboro'}} alt='upload-img'/> */}
                 <span style={{'fontSize': '1em', color: 'var(--text-color-secondary)'}} className="my-5"> 請選擇上傳影片</span>
             </div>
         )

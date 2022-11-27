@@ -40,12 +40,12 @@ export default function Upload() {
                 toast.current.show({ severity: 'info', summary: 'Second Step', detail: event.item.label });
             }
         },
-        {
-            label: '檢視結果與確認',
-            command: (event) => {
-                toast.current.show({ severity: 'info', summary: 'Third Step', detail: event.item.label });
-            }
-        }
+        // {
+        //     label: '檢視結果與確認',
+        //     command: (event) => {
+        //         toast.current.show({ severity: 'info', summary: 'Third Step', detail: event.item.label });
+        //     }
+        // }
     ];
 
    
@@ -83,25 +83,29 @@ export default function Upload() {
                                 <div className="button-step">
                                     <React.Fragment>
                                     
-                                            <Button label="上一步" onClick={prePage} icon="pi pi-angle-left" iconPos="left" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
+                                            {/* <Button label="上一步" onClick={prePage} icon="pi pi-angle-left" iconPos="left" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
                                             <Button label="下一步" onClick={nextPage} icon="pi pi-angle-right" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
- 
+  */}
                                     </React.Fragment>
                                 </div>
                             );
-                        } else {
-                            return (
-                                <div className="button-step">
-                                    <React.Fragment>  
-                                        <Button label="確認" onClick={Confirm} icon="pi pi-check" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
-                                        <Button label="重新上傳" onClick={BacktoFirstPage} icon="pi pi-replay" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
-                                    </React.Fragment>
-                                </div>
-                            );
-                        }
+                        } 
                     })()}       
                 </div>
             </div>
         </div>
     );
 }
+
+
+
+// else {
+//     return (
+//         <div className="button-step">
+//             <React.Fragment>  
+//                 <Button label="確認" onClick={Confirm} icon="pi pi-check" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
+//                 <Button label="重新上傳" onClick={BacktoFirstPage} icon="pi pi-replay" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
+//             </React.Fragment>
+//         </div>
+//     );
+// }
