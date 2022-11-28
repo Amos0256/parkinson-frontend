@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { Steps } from 'primereact/steps';
 import { Toast } from 'primereact/toast'; 
 import { Button } from 'primereact/button';
@@ -9,22 +9,33 @@ import Header from '../../../components/Header';
 import ShowPage from './ShowPage';
 import './StepsDemo.css';
 import './layout.css'
+import { selectedContext } from './selectedContext';
 
 export default function Upload() {
-    const navigate = useNavigate();
+
+    const selectcontext = useContext(selectedContext);
+
+    
     const [Step, setStep] = useState(0);
     function nextPage() {
-        setStep(preStep => preStep + 1)
+        // console.log(selectcontext.selectedPosition.name)
+        // if(selectcontext.selectedPosition.name === '手部抓握') {
+        //     alert('還沒');
+        // }
+        
+            setStep(preStep => preStep + 1)
+        
+            
     }
-    function prePage() {
-        setStep(preStep => preStep - 1)
-    }
-    function BacktoFirstPage() {
-        setStep(Step => 0)
-    }
-    function Confirm() {
-        navigate('/patient');
-    }
+    // function prePage() {
+    //     setStep(preStep => preStep - 1)
+    // }
+    // function BacktoFirstPage() {
+    //     setStep(Step => 0)
+    // }
+    // function Confirm() {
+    //     navigate('/patient');
+    // }
 
     const toast = useRef(null);
     const items = [
@@ -61,14 +72,12 @@ export default function Upload() {
                 </div>
             </div>
             
-            {/* first page */}
-            {/* <ShowPage /> */}
             <div className="main-func">
             <stepContext.Provider value={{Step, setStep}}>
                 <ShowPage />
             </stepContext.Provider>
             </div>
-        
+           
             <div className='button-layout'>
                 <div>
                     {(() => {
@@ -82,10 +91,10 @@ export default function Upload() {
                             return (
                                 <div className="button-step">
                                     <React.Fragment>
-                                    
+                                        
                                             {/* <Button label="上一步" onClick={prePage} icon="pi pi-angle-left" iconPos="left" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}} />
                                             <Button label="下一步" onClick={nextPage} icon="pi pi-angle-right" iconPos="right" style={{'fontSize': '1em', 'box-shadow': '-5px 5px 10px rgba(0,0,0,0.1), 5px 0 10px rgba(0,0,0,0.1)'}}/>
-  */}
+  */}                                   
                                     </React.Fragment>
                                 </div>
                             );

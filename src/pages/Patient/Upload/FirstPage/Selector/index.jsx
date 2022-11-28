@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { createContext, useState, useContext } from 'react';
+import { useLocation, Route } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
 import '../InputBar.css';
+import Upload from '../..';
+import { selectedContext } from '../../selectedContext';
 
 export default function DropdownDemo() {
-
+    
     var pos = '';
     const location = useLocation();
     if(location.state.option === "grip") {
@@ -21,7 +23,7 @@ export default function DropdownDemo() {
     }
     const [selectedPosition, setselectedPosition] = useState(pos);
     
-    // console.log(context.examtype);
+    
     const handPos = [
         { name: '手部抓握', code: '抓握' },
         { name: '手部捏指', code: '手捏'},

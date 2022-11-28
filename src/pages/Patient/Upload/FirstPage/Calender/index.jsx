@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Calendar } from 'primereact/calendar';
 import '../InputBar.css';
 
-
+export var date;
+export var time;
 export default function CalendarDemo() {
     let today = new Date();
     let month = today.getMonth();
@@ -13,8 +14,8 @@ export default function CalendarDemo() {
     let nextMonth = (month === 11) ? 0 : month + 1;
     let nextYear = (nextMonth === 0) ? year + 1 : year;
 
-    const [date1, setDate1] = useState(null);
-    const [date8, setDate8] = useState(null);
+    const [date, setDate] = useState(null);
+    const [time, setTime] = useState(null);
     
 
     let minDate = new Date();
@@ -31,11 +32,11 @@ export default function CalendarDemo() {
                 <div className="p-fluid">
                     <div className='space'>日期</div>
                     <div className="calender">
-                        <Calendar id="basic" dateFormat="yy/mm/dd" value={date1} onChange={(e) => setDate1(e.value)} placeholder="請輸入日期"/>
+                        <Calendar id="basic" dateFormat="yy/mm/dd" value={date} onChange={(e) => setDate(e.value)} placeholder="請輸入日期"/>
                     </div>
                     <div className='space'>時間</div>
                     <div className="time">
-                        <Calendar id="time12" value={date8} onChange={(e) => setDate8(e.value)} timeOnly hourFormat="12" placeholder='請輸入時間'/>
+                        <Calendar id="time12" value={time} onChange={(e) => setTime(e.value)} timeOnly hourFormat="12" placeholder='請輸入時間'/>
                     </div>
                 </div>
             </div>

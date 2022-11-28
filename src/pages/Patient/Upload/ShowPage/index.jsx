@@ -10,6 +10,7 @@ export default function ShowPage() {
 
     return (
         <div>
+            {msg.Step}
             <div className="page">
                 {(() => {
                     if(msg.Step === 0) {
