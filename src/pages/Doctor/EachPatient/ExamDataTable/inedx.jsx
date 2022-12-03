@@ -1,50 +1,21 @@
-import React, { useState } from "react";
-import { FilterMatchMode } from "primereact/api";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
-import { Button } from "primereact/button";
-import { Calendar } from "primereact/calendar";
-const exams = [
-  {
-    exam: "抬腳",
-    date: new Date(2022, 11, 10),
-    result: "(左手)20次 (右手)19次",
-    status: 3,
-    feedback: "未發現異常",
-  },
-  {
-    exam: "手部抓握",
-    date: new Date(2022, 11, 12),
-    result: "",
-    status: 1,
-    feedback: "",
-  },
-  {
-    exam: "手指拍打",
-    date: new Date(2022, 11, 18),
-    result: "(左手)20次 (右手)19次",
-    status: 2,
-    feedback: "",
-  },
-  {
-    exam: "手掌翻面",
-    date: new Date(),
-    result: "",
-    status: 0,
-    feedback: "",
-  },
-];
+import React, { useState } from 'react'
+import { FilterMatchMode } from 'primereact/api'
+import { DataTable } from 'primereact/datatable'
+import { Column } from 'primereact/column'
+import { InputText } from 'primereact/inputtext'
+import { Dropdown } from 'primereact/dropdown'
+import { Button } from 'primereact/button'
+import { Calendar } from 'primereact/calendar'
+import { getExamName } from 'utils/getName'
 
-const matchContainModes = [{ label: "包含", value: FilterMatchMode.CONTAINS }];
-const matchEqualModes = [{ label: "等於", value: FilterMatchMode.EQUALS }];
+const matchContainModes = [{ label: '包含', value: FilterMatchMode.CONTAINS }]
+const matchEqualModes = [{ label: '等於', value: FilterMatchMode.EQUALS }]
 const matchDateModes = [
-  { label: "等於", value: FilterMatchMode.DATE_IS },
-  { label: "不等於", value: FilterMatchMode.DATE_IS_NOT },
-  { label: "早於", value: FilterMatchMode.DATE_BEFORE },
-  { label: "晚於", value: FilterMatchMode.DATE_AFTER },
-];
+  { label: '等於', value: FilterMatchMode.DATE_IS },
+  { label: '不等於', value: FilterMatchMode.DATE_IS_NOT },
+  { label: '早於', value: FilterMatchMode.DATE_BEFORE },
+  { label: '晚於', value: FilterMatchMode.DATE_AFTER },
+]
 
 export default function ExamDataTable({ data }) {
   const [filters, setFilters] = useState({
@@ -58,38 +29,38 @@ export default function ExamDataTable({ data }) {
     status: {
       constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
     },
-  });
-  const [globalFilterValue, setGlobalFilterValue] = useState("");
-  const [loading, setLoading] = useState(true);
+  })
+  const [globalFilterValue, setGlobalFilterValue] = useState('')
+  const [loading, setLoading] = useState(true)
 
-  const statuses = ["待檢測", "未處裡", "待檢閱", "已檢閱"];
+  const statuses = ['待檢測', '未處裡', '待檢閱', '已檢閱']
 
   const formatDate = (value) => {
     return value
-      ? value.toLocaleDateString("zh-TW", {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
+      ? value.toLocaleDateString('zh-TW', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
         })
-      : "N/A";
-  };
+      : 'N/A'
+  }
 
   const onGlobalFilterChange = (e) => {
-    const value = e.target.value;
-    let _filters = { ...filters };
-    _filters["global"].value = value;
+    const value = e.target.value
+    let _filters = { ...filters }
+    _filters['global'].value = value
 
-    setFilters(_filters);
-    setGlobalFilterValue(value);
-  };
+    setFilters(_filters)
+    setGlobalFilterValue(value)
+  }
 
   const renderHeader = () => {
     return (
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <h3>檢測紀錄</h3>
@@ -102,20 +73,20 @@ export default function ExamDataTable({ data }) {
           />
         </span>
       </div>
-    );
-  };
+    )
+  }
 
   const resultTemp = ({ result }) => {
-    return <React.Fragment>{result}</React.Fragment>;
-  };
+    return <React.Fragment>{result}</React.Fragment>
+  }
 
   const examBodyTemplate = ({ category }) => {
-    return category;
-  };
+    return getExamName(category)
+  }
 
   const timeBodyTemplate = ({ date }) => {
-    return formatDate(date);
-  };
+    return formatDate(date)
+  }
 
   const dateFilterTemplate = (options) => {
     return (
@@ -126,29 +97,29 @@ export default function ExamDataTable({ data }) {
         placeholder="年/月/日"
         mask="9999/99/99"
       />
-    );
-  };
+    )
+  }
 
   const statusBodyTemplate = ({ status }) => {
     const map = {
       未處理: 1,
       待檢閱: 2,
       已檢閱: 3,
-    };
-    const bgcolors = ["#CFCFCF", "#FFD8B2", "#B3E5FC", "#C8E6C9"];
-    const colors = ["#6F6F6F", "#805B36", "#23547B", "#346C37"];
+    }
+    const bgcolors = ['#CFCFCF', '#FFD8B2', '#B3E5FC', '#C8E6C9']
+    const colors = ['#6F6F6F', '#805B36', '#23547B', '#346C37']
     return (
       <span
         style={{
           backgroundColor: bgcolors[map[status]],
           color: colors[map[status]],
-          padding: "5px",
+          padding: '5px',
         }}
       >
         {status}
       </span>
-    );
-  };
+    )
+  }
 
   const statusFilterTemplate = (options) => {
     return (
@@ -161,8 +132,8 @@ export default function ExamDataTable({ data }) {
         placeholder="選擇檢測狀態"
         showClear
       />
-    );
-  };
+    )
+  }
 
   const filterClearTemplate = (options) => {
     return (
@@ -173,26 +144,26 @@ export default function ExamDataTable({ data }) {
       >
         取消
       </Button>
-    );
-  };
+    )
+  }
 
   const filterApplyTemplate = (options) => {
     return (
       <Button type="button" onClick={options.filterApplyCallback}>
         篩選
       </Button>
-    );
-  };
+    )
+  }
 
   const statusItemTemplate = (option) => {
-    return statusBodyTemplate({ status: option.value });
-  };
+    return statusBodyTemplate({ status: option.value })
+  }
 
-  const feedbackBodyTemplate = ({doctor_comment}) => {
-    return doctor_comment;
-  };
+  const feedbackBodyTemplate = ({ doctor_comment }) => {
+    return doctor_comment
+  }
 
-  const header = renderHeader();
+  const header = renderHeader()
 
   return (
     <div className="datatable-doc-demo">
@@ -207,7 +178,7 @@ export default function ExamDataTable({ data }) {
           filterDisplay="menu"
           loading={!loading}
           responsiveLayout="scroll"
-          globalFilterFields={["name"]}
+          globalFilterFields={['name']}
           emptyMessage="尚未有完成的檢測"
         >
           <Column
@@ -257,5 +228,5 @@ export default function ExamDataTable({ data }) {
         </DataTable>
       </div>
     </div>
-  );
+  )
 }
