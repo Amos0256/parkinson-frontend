@@ -9,30 +9,13 @@ import { Dialog } from 'primereact/dialog';
 import React from "react";
 import "./header.css";
 import icon from "./parkinson.png";
-import api from "utils/api";
+import Personal_info from "./Personal-info";
+
 
 export default function Header({ title }) {
   const navigate = useNavigate("");
-  const { user, isLogin, loading, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [profileShow, setProfileShow] = useState(false);
-  const [currentUser, setCurrentUser] = useState({});
-
-  useEffect(() => {
-    if (loading) return;
-    if (isLogin){
-      api("user-info", "GET")
-      .then((json) => {
-        setCurrentUser(json);
-      })
-      .catch((e) => {
-        alert(e.message);
-        navigate("/login");
-      });
-    }
-    else{
-      navigate("/login");
-    }
-  }, [isLogin, loading]);
 
   const info = [
     {
@@ -104,11 +87,10 @@ export default function Header({ title }) {
       <div className="card">
         <Toolbar left={start}  right={end} style={{ padding: "0.5rem" }} />
         <Dialog 
-          header="個人資料"
           visible={profileShow}
-          style={{ width: '60rem', height: 'auto'}}
+          style={{ width: 'auto', height: 'auto'}}
           onHide={() => setProfileShow(false)}>
-            {JSON.stringify(currentUser)}
+            <Personal_info/>
           </Dialog>
       </div>
     </div>
