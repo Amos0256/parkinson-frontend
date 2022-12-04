@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
 import { useNavigate } from 'react-router-dom';
-import DropdownDemo from '../../Upload/FirstPage/Selector/index'
+import DropdownDemo from 'pages/Patient/Upload/FirstPage/InputForm/Selector';
 import './index.css';
 
 export default function Progress() {

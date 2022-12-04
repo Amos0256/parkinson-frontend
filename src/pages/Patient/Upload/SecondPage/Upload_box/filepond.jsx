@@ -19,7 +19,7 @@ export default function FileUpload() {
   const navigate = useNavigate("");
   const [fileState, setFileState] = useState('取消');
   const token = localStorage.getItem("token");
-
+  
   return (
     <div className="filepond-upload">
       <FilePond
@@ -42,7 +42,7 @@ export default function FileUpload() {
         maxFiles={3}
         allowMultiple={true}
         checkValidity={true}
-        instantUpload={false}
+        // instantUpload={false}
         labelIdle='請拖移檔案至此 或是 <span class="filepond--label-action">瀏覽</span>'
         
         onprocessfile={ (error, files) => {
@@ -50,22 +50,41 @@ export default function FileUpload() {
             console.log(fileState);
           }
         }
-      //   onupdatefiles={ (setFiles) => {
-          
-      //   }
-      // }
+        onremovefile={ (error, files) => {
+            setFileState('取消');
+        }}
         
         
        
       />
       <div className="b-layout">
         <div className='sec-button'>
-          <Button 
-            label={fileState} 
-            onClick={() => {
-                navigate('/patient')
-            }}
-          />
+          {(() => {
+            if(fileState === '取消') {
+              return (
+                <Button 
+                  label={fileState} 
+                  iconPos="left"
+                  icon="pi pi-times"
+                  onClick={() => {
+                      navigate('/patient')
+                  }}
+                />
+              );
+            }
+            else {
+              return (
+                <Button 
+                  label={fileState} 
+                  iconPos="left"
+                  icon="pi pi-check"
+                  onClick={() => {
+                      navigate('/patient')
+                  }}
+                />
+              );
+            }
+          })()}
         </div>
       </div>
       

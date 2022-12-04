@@ -1,13 +1,16 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useLocation, Route } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
-import '../InputBar.css';
-import Upload from '../..';
-import { selectedContext } from '../../selectedContext';
+import '../../InputBar.css';
+import { inputContext } from 'pages/Patient/Upload/inputContext';
+
+export var selectCheck = 0;
 
 export default function DropdownDemo() {
     
-    var pos = '';
+    const msg = useContext(inputContext);
+
+    var pos = null;
     const location = useLocation();
     if(location.state.option === "grip") {
         pos = { name: '手部抓握', code: '抓握' };
@@ -31,17 +34,24 @@ export default function DropdownDemo() {
         { name: '抬腳', code: '抬腳'}
     ];
     const onPositionChange = (e) => {  
-        console.log(e.value);
+        // console.log(e.value);
         setselectedPosition(e.value);
+        msg.setInputState({
+            ...msg.InputState,
+            select: 1
+        });
     }
+    
     return (
         <div>
+            
             <div className="card">
                 <div className="dropdown-demo">
                     <div className='space'>項目</div>
                     <Dropdown value={selectedPosition} options={handPos} onChange={onPositionChange} optionLabel="name" placeholder="請選擇項目" />
                 </div>
             </div>
+
         </div>
         
     );

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Upload_box from "./Upload_box"
 import { FilePond, registerPlugin } from "filepond";
 
 import 'filepond/dist/filepond.min.css';

@@ -10,6 +10,7 @@ import ShowPage from './ShowPage';
 import './StepsDemo.css';
 import './layout.css'
 import { selectedContext } from './selectedContext';
+import { dateState, timeState, placeState, selectState } from './FirstPage';
 
 export default function Upload() {
 
@@ -18,12 +19,11 @@ export default function Upload() {
     
     const [Step, setStep] = useState(0);
     function nextPage() {
-        // console.log(selectcontext.selectedPosition.name)
-        // if(selectcontext.selectedPosition.name === '手部抓握') {
-        //     alert('還沒');
-        // }
-        
-            setStep(preStep => preStep + 1)
+        if(dateState && timeState && placeState && selectState)
+            setStep(preStep => preStep + 1);
+        else {
+            alert('資料未填寫齊全!');
+        }
         
             
     }
@@ -51,12 +51,6 @@ export default function Upload() {
                 toast.current.show({ severity: 'info', summary: 'Second Step', detail: event.item.label });
             }
         },
-        // {
-        //     label: '檢視結果與確認',
-        //     command: (event) => {
-        //         toast.current.show({ severity: 'info', summary: 'Third Step', detail: event.item.label });
-        //     }
-        // }
     ];
 
    
