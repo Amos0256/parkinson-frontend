@@ -7,16 +7,21 @@
   margin: 10px;
 }
 
-.examination-result {
+.category-result {
   border-radius: 2px;
   padding: .25em .5rem;
   font-weight: 700;
   letter-spacing: .3px;
 }
 
-.status-已處理 {
+.status-已檢閱 {
   background-color: #c8e6c9;
   color: #256029;
+}
+
+.status-待檢閱 {
+  background-color: #b3e5fc;
+  color: #23547b;
 }
 
 .status-未處理 {
@@ -24,7 +29,7 @@
   color: #805b36;
 }
 
-.status-待檢閱 {
-  background-color: #b3e5fc;
-  color: #23547b;
+.status-未上傳 {
+  background-color: #ffcdd2;
+  color: #c63737;
 }

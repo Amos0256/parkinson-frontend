@@ -5,61 +5,92 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import api from 'utils/api';
+import useAuth from 'hooks/useAuth';
+
 
 export default function ResultDataTable() {
-  const result = [
-    {
-      "examination": "手部抓握",
-      "date": "2015-09-13",
-      "time": "09:16:31",
-      "frequency": 10,
-      "status": "已處理",
-      "feedback": "正常"
-    },
-    {
-      "examination": "手指捏握",
-      "date": "2020-05-29",
-      "time": "11:59:06",
-      "frequency": "",
-      "status": "未處理"
-    },
-    {
-      "examination": "手掌翻面",
-      "date": "2021-07-01",
-      "time": "13:26:09",
-      "frequency": 24,
-      "status": "待檢閱"
-    },
-    {
-      "examination": "抬腳",
-      "date": "2021-07-31",
-      "time": "16:41:29",
-      "frequency": 36,
-      "status": "已處理",
-      "feedback": "有巴金森氏症風險"
-    },
-    {
-      "examination": "手部抓握",
-      "date": "2022-11-05",
-      "time": "12:40:59",
-      "frequency": "",
-      "status": "未處理"
+  const { loading, isLogin } = useAuth();
+  const [ records, setRecords ] = useState([]);
+  let record = [];
+  
+  useEffect(() => {
+    if (loading)
+      return;
+  
+    if(isLogin){
+      api("assoc-record", "GET")
+      .then(res => {
+        let missions = res.missions;
+        record.length = 0;
+        for (let i = 0; i < missions.length; i++){
+          let temp = missions[i].records;
+          for (let j = 0; j < temp.length; j++){
+            record.push(temp[j]);
+          }
+        }
+        dataProcess();
+        setRecords(record);
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
     }
-  ];
+  }, [isLogin, loading]);
+  
+  function dataProcess() {
+    for(let i = 0; i < record.length; i++) {
+      if(record[i].submit_time != null) {
+        const date = new Date(record[i].submit_time);
+        record[i].submit_time = date;
+        (record[i])['submit_date'] = date;
+      }
+      
+      if(record[i].result != null) {
+        let temp = (record[i].result).split(",");
+        let left = temp[0].replace(/[^0-9]/ig,"");
+        let right = temp[1].replace(/[^0-9]/ig,"");
+        record[i].result = "左:" + left + "\n右:" + right;
+      }
+    }
+    console.log(record);
+  }
 
-  const examination = [
+  const [filter, setFilter] = useState({
+    'category': { value: null },
+    'submit_date': { value: null, matchMode: FilterMatchMode.DATE_IS },
+    'status': { value: null }
+  });
+
+  const initFilter = () => {
+    setFilter({
+      'category': { value: null },
+      'submit_date': { value: null, matchMode: FilterMatchMode.DATE_IS },
+      'status': { value: null }
+    });
+  };
+
+  useEffect(() => {
+    initFilter();;
+  }, []);
+
+  const clearFilter = () => {
+    initFilter();
+  }
+
+  const category = [
     '手部抓握', '手指捏握', '手掌翻面', '抬腳'
   ];
   
   const statuses = [
-    '已處理', '未處理', '待檢閱'
+    '已檢閱', '待檢閱', '未處理', '未上傳'
   ];
 
-  const examinationFilterTemplate = (options) => {
+  const categoryFilterTemplate = (options) => {
     return (
       <Dropdown 
         value={options.value} 
-        options={examination} 
+        options={category} 
         onChange={(e) => options.filterCallback(e.value, options.index)} 
         placeholder="選擇檢測項目" 
         className="p-column-filter" 
@@ -67,11 +98,15 @@ export default function ResultDataTable() {
       />
     );
   }
+
+  const dateBodyTemplate = (rowData) => {
+    return formatDate(rowData.submit_date);
+  }
   
   const dateFilterTemplate = (options) => {
     return (
       <Calendar 
-        value={options.value} 
+        value={options.value}
         onChange={(e) => options.filterCallback(e.value, options.index)} 
         dateFormat="yy/mm/dd" 
         placeholder="yyyy/mm/dd" 
@@ -80,22 +115,35 @@ export default function ResultDataTable() {
     )
   }
   
-  const dateBodyTemplate = (rowData) => {
-    return formatDate(rowData.date);
-  }
-  
   const formatDate = (value) => {
-    let date = new Date(value).toLocaleDateString('zh-TW', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
+    if(value != null){
+      let date = new Date(value).toLocaleDateString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
   
-    return date;
+      return date;
+    }
   }
   
+  const timeBodyTemplate = (rowData) => {
+    return formatTime(rowData.submit_time);
+  }
+
+  const formatTime = (value) => {
+    if(value != null){
+      let time = new Date(value).toLocaleTimeString('zh-TW', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+      return time;
+    }
+  }
+
   const statusBodyTemplate = (rowData) => {
-    return <span className={`examination-result status-${rowData.status}`}>{rowData.status}</span>;
+    return <span className={`category-result status-${rowData.status}`}>{rowData.status}</span>;
   }
   
   const statusFilterTemplate = (options) => {
@@ -113,26 +161,38 @@ export default function ResultDataTable() {
   }
   
   const statusItemTemplate = (option) => {
-    return <span className={`examination-result status-${option}`}>{option}</span>;
+    return <span className={`category-result status-${option}`}>{option}</span>;
   }
+
+  const renderHeader = () => {
+    return (
+      <div className="flex justify-content-between">
+        <Button type="button" icon="pi pi-filter-slash" label="清除" className="p-button-outlined" onClick={clearFilter} />
+      </div>
+    )
+  }
+
+  const header = renderHeader();
 
   return (
     <DataTable
-      value={result}
+      value={records}
       emptyMessage="無對應資料"
+      filters={filter}
+      header={header}
     >
       <Column 
-        field="examination"
+        field="category"
         header="檢測項目"
         sortable
         filter
-        filterElement={examinationFilterTemplate}
+        filterElement={categoryFilterTemplate}
         showFilterMenuOptions={false}
         showAddButton={false}
         filterMenuStyle={{ width: '14rem' }}
       />
       <Column
-        field="date"
+        field="submit_date"
         header="上傳日期"
         dataType="date"
         body={dateBodyTemplate}
@@ -143,19 +203,19 @@ export default function ResultDataTable() {
         showAddButton={false}
       />
       <Column
-        field="time"
+        field="submit_time"
         header="上傳時間"
+        body={timeBodyTemplate}
         sortable
       />
       <Column
-        field="place"
+        field="location"
         header="地點"
         sortable
       />
       <Column 
-        field="frequency"
+        field="result"
         header="次數"
-        sortable
       />
       <Column 
         field="status" 
@@ -169,7 +229,7 @@ export default function ResultDataTable() {
         filterMenuStyle={{ width: '14rem' }}
       />
       <Column 
-        field="feedback" 
+        field="doctor_comment" 
         header="醫師回饋"
       />
     </DataTable>

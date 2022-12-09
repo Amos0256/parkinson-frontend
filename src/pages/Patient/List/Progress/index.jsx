@@ -1,11 +1,62 @@
-import React, { createContext, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
 import { useNavigate } from 'react-router-dom';
-import DropdownDemo from 'pages/Patient/Upload/FirstPage/InputForm/Selector';
 import './index.css';
+import api from 'utils/api';
+import useAuth from 'hooks/useAuth';
 
 export default function Progress() {
+  const { loading, isLogin } = useAuth();
+  const [gripvisible, setGripVisible] = useState(false);
+  const [pinchvisible, setPinchVisible] = useState(false);
+  const [turnvisible, setTurnVisible] = useState(false);
+  const [liftvisible, setLiftVisible] = useState(false);
+  const [process, setProcess] = useState(0);
+
+  useEffect(() => {
+    if (loading)
+      return;
+    
+    if(isLogin){
+      api("assoc-record", "GET")
+        .then(res => {
+          //console.log(res);
+          let missions = res.missions[0].records;
+          setProcess(0);
+          for(let i = 0; i < missions.length; i++) {
+            if(missions[i].category === "手部抓握") {
+              if(missions[i].status === "未上傳")
+                setGripVisible(true);
+              else
+                setProcess(prev => prev + 25);
+            }
+            else if(missions[i].category === "手指捏握") {
+              if(missions[i].status === "未上傳")
+                setPinchVisible(true);
+              else
+                setProcess(prev => prev + 25);
+            }
+            else if(missions[i].category === "手掌翻面") {
+              if(missions[i].status === "未上傳")
+                setTurnVisible(true);
+              else
+                setProcess(prev => prev + 25);
+            }
+            else {
+              if(missions[i].status === "未上傳")
+                setLiftVisible(true);
+              else
+                setProcess(prev => prev + 25);
+            }
+          }
+        })
+        .catch((e) => {
+          alert(e.message);
+        });
+    }
+  }, [isLogin, loading]);
+  
   const displayValueTemplate = (value) => {
     if (value === 0)
       return '0 / 4';
@@ -19,36 +70,25 @@ export default function Progress() {
       return '4 / 4';
   }
 
-  const [gripdisable, setGripDisable] = useState(false);
-  const [pinchdisable, setPinchDisable] = useState(false);
-  const [turndisable, setTurnDisable] = useState(false);
-  const [liftdisable, setLiftDisable] = useState(false);
-
   const navigate = useNavigate();
-
   function uploadPage(opt) {
-        navigate('/patient/upload',{
-          state: {
-            option: opt,
-          }
-        });
+    navigate('/patient/upload',{
+      state: {
+        option: opt,
+      }
+    });
   }
 
-  const [examtype, setExamType] = useState("");
   function gripSelect() {
-    setExamType(newtype => "grip");
     uploadPage("grip");
   }
   function pinchSelect() {
-    setExamType(newtype => "pinch");
     uploadPage("pinch");
   }
   function turnSelect() {
-    setExamType(newtype => "turn");
     uploadPage("turn");
   }
   function liftSelect() {
-    setExamType(newtype => "lift");
     uploadPage("lift");
   }
   
@@ -58,39 +98,39 @@ export default function Progress() {
       <div className="progressbar">
         <h3>檢測進度條</h3>
         <ProgressBar 
-          value={25}
+          value={process}
           displayValueTemplate={displayValueTemplate}
         />
       </div>
 
       <div className="waiting-exam">
-        <h3>待檢測項目</h3>
+        <h3 className="item-text">待檢測項目</h3>
         <Button
           className="p-button-outlined"
           label="手部抓握"
-          disabled={gripdisable}
-          onClick={() => {gripSelect();}}
+          visible={gripvisible}
+          onClick={gripSelect}
           style={{ marginRight: "0.5rem" }}
         />
         <Button
           className="p-button-outlined"
           label="手指捏握"
-          disabled={pinchdisable}
-          onClick={() => {pinchSelect();}}
+          visible={pinchvisible}
+          onClick={pinchSelect}
           style={{ marginRight: "0.5rem" }}
         />
         <Button 
           className="p-button-outlined"
           label="手掌翻面"
-          disabled={turndisable}
-          onClick={() => {turnSelect();}}
+          visible={turnvisible}
+          onClick={turnSelect}
           style={{ marginRight: "0.5rem" }}
         />
         <Button
           className="p-button-outlined"
           label="抬腳"
-          disabled={liftdisable}
-          onClick={() => {liftSelect();}}
+          visible={liftvisible}
+          onClick={liftSelect}
         />
       </div>
     </div>
