@@ -4,13 +4,15 @@ import { Calendar } from 'primereact/calendar';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { FilterMatchMode } from 'primereact/api';
+import { useNavigate } from 'react-router-dom'
 import api from 'utils/api';
 import useAuth from 'hooks/useAuth';
 
 
 export default function ResultDataTable() {
   const { loading, isLogin } = useAuth();
+  const navigate = useNavigate();
   const [ records, setRecords ] = useState([]);
   let record = [];
   
@@ -36,6 +38,9 @@ export default function ResultDataTable() {
         alert(e.message);
       });
     }
+    else {
+      navigate('/login');
+    }
   }, [isLogin, loading]);
   
   function dataProcess() {
@@ -53,7 +58,6 @@ export default function ResultDataTable() {
         record[i].result = "左:" + left + "\n右:" + right;
       }
     }
-    console.log(record);
   }
 
   const [filter, setFilter] = useState({
