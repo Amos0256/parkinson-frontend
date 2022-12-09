@@ -29,7 +29,7 @@ export default function Upload() {
                     "submit_time": `${Form.date} ${Form.time}`,
                     "category": Form.option,
                     "location": Form.place,
-                    "mission_id":3,
+                    "mission_id":2,
                     "video":[{"serverId":"637f0ec7a5a1b-1669271239", "filename":"test.mp4"}]
                 }
             );
