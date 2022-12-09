@@ -1,46 +1,58 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useLocation, Route } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
 import '../../InputBar.css';
-import { inputContext } from 'pages/Patient/Upload/inputContext';
+import { formContext } from 'pages/Patient/Upload/formContext';
 
-export var selectCheck = 0;
+export var pos = null;
 
 export default function DropdownDemo() {
-    
-    const msg = useContext(inputContext);
-
-    var pos = null;
+    const form_context = useContext(formContext);
     const location = useLocation();
     if(location.state.option === "grip") {
-        pos = { name: '手部抓握', code: '抓握' };
+        pos = { name: '手部抓握'};
     }
     else if (location.state.option === "pinch") {
-        pos = { name: '手部捏指', code: '手捏'};
+        pos = { name: '手部捏指'};
     }
     else if (location.state.option === "turn") {
-        pos = { name: '手掌翻面', code: '手翻'};
+        pos = { name: '手掌翻面'};
     }
     else if(location.state.option === "lift") {
-        pos = { name: '抬腳', code: '抬腳'};
+        pos = { name: '抬腳'};
     }
     const [selectedPosition, setselectedPosition] = useState(pos);
     
     
     const handPos = [
-        { name: '手部抓握', code: '抓握' },
-        { name: '手部捏指', code: '手捏'},
-        { name: '手掌翻面', code: '手翻'},
-        { name: '抬腳', code: '抬腳'}
+        { name: '手部抓握'},
+        { name: '手部捏指'},
+        { name: '手掌翻面'},
+        { name: '抬腳'}
     ];
+    
     const onPositionChange = (e) => {  
         // console.log(e.value);
         setselectedPosition(e.value);
-        msg.setInputState({
-            ...msg.InputState,
-            select: 1
-        });
+        // form_context.setForm({...form_context.Form, option:e.value.name})
     }
+    useEffect(() => {
+        if(selectedPosition !== null) {
+            form_context.setForm({...form_context.Form, option:selectedPosition.name});
+        }
+        
+    }, [selectedPosition]);
+    // useEffect(() => {
+    //     //console.log(selectedPosition.name);
+    //     if(selectedPosition === null) {
+    //         msg.setInputState({...msg.InputState, select:''});
+    //     }
+    //     if(selectedPosition !== null ) {
+            
+    //         form_context.setForm({...form_context.Form, option:selectedPosition.name});
+    //         msg.setInputState({...msg.InputState, select:1});
+    //     }
+    // }, [selectedPosition]);
     
     return (
         <div>

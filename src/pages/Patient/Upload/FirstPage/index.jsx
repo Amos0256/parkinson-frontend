@@ -1,32 +1,31 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import InputForm from './InputForm';
-import { inputContext } from '../inputContext';
-import './InputBar.css';
-import { dateCheck, timeCheck } from './InputForm/Calender';
-import { selectCheck } from './InputForm/Selector';
-import { placeCheck } from './InputForm';
+import { nextContext } from 'pages/Patient/Upload/nextContext';
+import { formContext } from 'pages/Patient/Upload/formContext';
 
-export var dateState = 0;
-export var timeState = 0;
-export var placeState = 0;
-export var selectState = 0;
+
+import './InputBar.css';
+
 export default function FirstPage () {
+    const form_context = useContext(formContext);
+    const msg = useContext(nextContext); 
     
-    
-    const [InputState, setInputState] = useState({date:0, time:0, place:0, select:0}); 
-    
-    if(InputState.date === 1) {
-         dateState = 1;
-    }
-    if(InputState.time === 1) {
-        timeState = 1;
-    }
-    if(InputState.place === 1) {
-        placeState = 1;
-    }
-    if(InputState.select === 1) {
-        selectState = 1;
-    }
+    useEffect(() => {
+        // form_context.setForm({
+        //     date: InputState.date,
+        //     time: InputState.time,
+        //     place: InputState.place,
+        //     option: InputState.select
+        // });
+        if(form_context.Form.date !== null && form_context.Form.time !== null && form_context.Form.place !== '' && form_context.Form.option !== null) {
+            msg.setNext(1);
+        }
+        else {
+            msg.setNext(0);
+        }
+    }, [form_context]);
+   
+
 
     // if(dateCheck*timeCheck*placeCheck*selectCheck === 1 && check) {
     //     // setInputState('ready');
@@ -34,20 +33,20 @@ export default function FirstPage () {
     //     check = 0;
     // }
     return (
-        <div>
-            <inputContext.Provider value={{InputState, setInputState}}>
-                <InputForm />
-            </inputContext.Provider>
-
-            <span>{InputState.date}</span>
-            <br/>
+        <div> 
+            <InputForm />
+            {/* <span>{InputState.date}</span>
             <span>{InputState.time}</span>
-            <br/>
             <span>{InputState.place}</span>
+            <span>{InputState.select}</span> */}
+            {/* <br/>
+            <span>{form_context.Form.date}</span>
             <br/>
-            <span>{InputState.select}</span>
-            {/* <span>add ALERT feature!</span> */}
-            
+            <span>{form_context.Form.time}</span>
+            <br/>
+            <span>{form_context.Form.place}</span>
+            <br/>
+            <span>{form_context.Form.option}</span> */}
         </div>  
     );
 }

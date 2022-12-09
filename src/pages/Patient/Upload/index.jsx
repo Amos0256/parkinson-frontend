@@ -1,31 +1,44 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { Steps } from 'primereact/steps';
 import { Toast } from 'primereact/toast'; 
 import { Button } from 'primereact/button';
-import {Link, useNavigate} from 'react-router-dom';
 
-import { stepContext } from './stepContext';
+import { stepContext } from 'pages/Patient/Upload/stepContext';
+import { nextContext } from 'pages/Patient/Upload/nextContext';
+import { formContext } from './formContext';
 import Header from '../../../components/Header';
 import ShowPage from './ShowPage';
+import api from 'utils/api';
 import './StepsDemo.css';
 import './layout.css'
-import { selectedContext } from './selectedContext';
-import { dateState, timeState, placeState, selectState } from './FirstPage';
+
 
 export default function Upload() {
 
-    const selectcontext = useContext(selectedContext);
-
-    
+    const [Next, setNext] = useState(0);
     const [Step, setStep] = useState(0);
+    const [Form, setForm] = useState({
+        date:'', time:'', place: '', option: '',
+    });
     function nextPage() {
-        if(dateState && timeState && placeState && selectState)
+        if(Next) {
+            console.log(Form);
             setStep(preStep => preStep + 1);
+            api('upload-record','POST',
+                {
+                    "submit_time": `${Form.date} ${Form.time}`,
+                    "category": Form.option,
+                    "location": Form.place,
+                    "mission_id":3,
+                    "video":[{"serverId":"637f0ec7a5a1b-1669271239", "filename":"test.mp4"}]
+                }
+            );
+        }
         else {
+            console.log('Next: ', Next);
+
             alert('資料未填寫齊全!');
         }
-        
-            
     }
     // function prePage() {
     //     setStep(preStep => preStep - 1)
@@ -65,10 +78,20 @@ export default function Upload() {
                     <Steps model={items} activeIndex={Step} readOnly={false}/>
                 </div>
             </div>
-            
+            <span>Form: {Form.date}</span>
+            <br/>
+            <span>Form: {Form.time}</span>
+            <br/>
+            <span>Form: {Form.place}</span>
+            <br/>
+            <span>Form: {Form.option}</span>
             <div className="main-func">
             <stepContext.Provider value={{Step, setStep}}>
-                <ShowPage />
+                <nextContext.Provider value={{Next, setNext}}>
+                    <formContext.Provider value={{Form, setForm}}>
+                        <ShowPage />
+                    </formContext.Provider>
+                </nextContext.Provider>
             </stepContext.Provider>
             </div>
            

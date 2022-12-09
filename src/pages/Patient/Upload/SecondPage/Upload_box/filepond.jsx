@@ -39,8 +39,6 @@ export default function FileUpload() {
         allowDrop={true}
         dropValidation={true}
         allowBrowse={true}
-        maxFiles={3}
-        allowMultiple={true}
         checkValidity={true}
         // instantUpload={false}
         labelIdle='請拖移檔案至此 或是 <span class="filepond--label-action">瀏覽</span>'
@@ -75,6 +73,7 @@ export default function FileUpload() {
             else {
               return (
                 <Button 
+                  className='second-button'
                   label={fileState} 
                   iconPos="left"
                   icon="pi pi-check"

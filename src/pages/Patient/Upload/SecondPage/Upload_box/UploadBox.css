@@ -35,3 +35,13 @@
     margin-left: auto;
     margin-right: auto;
 }
+.p-button.second-button {
+    border: #76DB9B !important;
+    background-color: #A0E6BA;
+    color: black;
+}
+.p-button.second-button:hover {
+    border: #76DB9B !important;
+    color: black !important;
+    background-color: #76DB9B !important;
+}
