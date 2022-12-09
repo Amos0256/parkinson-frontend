@@ -18,6 +18,8 @@ export default function api(target, method, body) {
           throw new Error("授權資訊錯誤");
         } else if (res.status === 404) {
           throw new Error("資料不存在");
+        } else if (res.status === 422) {
+          return res.json();
         } else {
           throw new Error("錯誤");
         }

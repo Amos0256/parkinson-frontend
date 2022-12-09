@@ -37,7 +37,7 @@ export default function Header({ title }) {
 
   const start = (
       <React.Fragment>
-          <img alt="logo" src={icon} height="40"></img>
+          <img alt="logo" src={icon} height="45"></img>
           {(() => {
               if(window.location.pathname === '/patient/upload') {
                 return(

@@ -37,3 +37,9 @@
   width: 25%;
   margin-left: 3%;
 }
+
+.dialog-input .p-button
+{
+  background-color: #4FC0FF;
+  border: 0;
+}
