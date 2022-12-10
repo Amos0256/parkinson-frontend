@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
-import { useNavigate } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import './index.css';
 import api from 'utils/api';
 import useAuth from 'hooks/useAuth';
@@ -13,6 +13,7 @@ export default function Progress() {
   const [turnvisible, setTurnVisible] = useState(false);
   const [liftvisible, setLiftVisible] = useState(false);
   const [process, setProcess] = useState(0);
+  let record = [];
 
   useEffect(() => {
     if (loading)
@@ -21,33 +22,38 @@ export default function Progress() {
     if(isLogin){
       api("assoc-record", "GET")
         .then(res => {
-          //console.log(res);
-          let missions = res.missions[0].records;
-          setProcess(0);
-          for(let i = 0; i < missions.length; i++) {
-            if(missions[i].category === "手部抓握") {
-              if(missions[i].status === "未上傳")
-                setGripVisible(true);
-              else
-                setProcess(prev => prev + 25);
+          let mission_len = (res.missions).length;
+          let mission = res.missions[mission_len - 1];
+          record.length = 0;
+          for (let i = 0; i < (mission.records).length; i++){
+            record.push(mission.records[i]);
+          }
+
+          setProcess(100);
+          for(let i = 0; i < record.length; i++) {
+            if(record[i].category === "手部抓握") {
+              if(record[i].status === "未上傳") {
+                  setGripVisible(true);
+                  setProcess(prev => prev - 25);
+              }
             }
-            else if(missions[i].category === "手指捏握") {
-              if(missions[i].status === "未上傳")
+            else if(record[i].category === "手指捏握") {
+              if(record[i].status === "未上傳") {
                 setPinchVisible(true);
-              else
-                setProcess(prev => prev + 25);
+                setProcess(prev => prev - 25);
+              }
             }
-            else if(missions[i].category === "手掌翻面") {
-              if(missions[i].status === "未上傳")
+            else if(record[i].category === "手掌翻面") {
+              if(record[i].status === "未上傳") {
                 setTurnVisible(true);
-              else
-                setProcess(prev => prev + 25);
+                setProcess(prev => prev - 25);
+              }
             }
             else {
-              if(missions[i].status === "未上傳")
+              if(record[i].status === "未上傳") {
                 setLiftVisible(true);
-              else
-                setProcess(prev => prev + 25);
+                setProcess(prev => prev - 25);
+              }
             }
           }
         })
