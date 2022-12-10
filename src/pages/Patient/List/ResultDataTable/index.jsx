@@ -9,12 +9,13 @@ import { useNavigate } from 'react-router-dom'
 import api from 'utils/api';
 import useAuth from 'hooks/useAuth';
 
+export var record = [];
 
 export default function ResultDataTable() {
   const { loading, isLogin } = useAuth();
   const navigate = useNavigate();
   const [ records, setRecords ] = useState([]);
-  let record = [];
+  
   
   useEffect(() => {
     if (loading)

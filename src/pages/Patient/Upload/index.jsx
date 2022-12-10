@@ -9,6 +9,7 @@ import { formContext } from './formContext';
 import Header from '../../../components/Header';
 import ShowPage from './ShowPage';
 import api from 'utils/api';
+import { record } from '../List/ResultDataTable';
 import './StepsDemo.css';
 import './layout.css'
 
@@ -22,20 +23,21 @@ export default function Upload() {
     });
     function nextPage() {
         if(Next) {
-            console.log(Form);
+            //console.log(Form);
             setStep(preStep => preStep + 1);
+            
             api('upload-record','POST',
                 {
                     "submit_time": `${Form.date} ${Form.time}`,
                     "category": Form.option,
                     "location": Form.place,
-                    "mission_id":2,
+                    "mission_id":record.mission_id,
                     "video":[{"serverId":"637f0ec7a5a1b-1669271239", "filename":"test.mp4"}]
                 }
             );
         }
         else {
-            console.log('Next: ', Next);
+            //console.log('Next: ', Next);
 
             alert('資料未填寫齊全!');
         }
@@ -85,6 +87,8 @@ export default function Upload() {
             <span>Form: {Form.place}</span>
             <br/>
             <span>Form: {Form.option}</span>
+            <br/>
+            <span>` ${typeof Form.date} ${Form.time}`</span>
             <div className="main-func">
             <stepContext.Provider value={{Step, setStep}}>
                 <nextContext.Provider value={{Next, setNext}}>

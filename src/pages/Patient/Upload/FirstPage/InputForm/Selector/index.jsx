@@ -3,7 +3,7 @@ import { useLocation, Route } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
 import '../../InputBar.css';
 import { formContext } from 'pages/Patient/Upload/formContext';
-
+import { record } from 'pages/Patient/List/ResultDataTable';
 export var pos = null;
 
 export default function DropdownDemo() {
@@ -13,7 +13,7 @@ export default function DropdownDemo() {
         pos = { name: '手部抓握'};
     }
     else if (location.state.option === "pinch") {
-        pos = { name: '手部捏指'};
+        pos = { name: '手指捏握'};
     }
     else if (location.state.option === "turn") {
         pos = { name: '手掌翻面'};
@@ -26,14 +26,24 @@ export default function DropdownDemo() {
     
     const handPos = [
         { name: '手部抓握'},
-        { name: '手部捏指'},
+        { name: '手指捏握'},
         { name: '手掌翻面'},
         { name: '抬腳'}
     ];
     
     const onPositionChange = (e) => {  
         // console.log(e.value);
-        setselectedPosition(e.value);
+        var flag = 0;
+        for(let i = 0; i<record.length; i++) {
+            if(record[i].category === e.value) {
+                setselectedPosition(e.value);
+                flag = 1;
+            }
+        }
+        if(flag === 0) {
+            alert('你所選擇的項目非檢測項目');
+        }
+        
         // form_context.setForm({...form_context.Form, option:e.value.name})
     }
     useEffect(() => {
