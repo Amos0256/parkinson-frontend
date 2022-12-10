@@ -9,6 +9,17 @@ export default function Personal_info(){
     const [currentUser, setCurrentUser] = useState([]);
     const { user, isLogin, loading } = useAuth();
     const navigate = useNavigate("");
+    function genderDecode(code){
+        if (code === "male") {
+            return "男";
+        } 
+        else if (code === "female") {
+            return "女";
+        }
+        else {
+            return null;
+        }
+    }
 
     useEffect(() => {
         if (loading) return;
@@ -39,6 +50,10 @@ export default function Personal_info(){
                 <h3>
                     生日 {currentUser.birthday}
                 </h3>
+                <h3>
+                    性別 {genderDecode(currentUser.gender)}
+                </h3>
+
                 
             </Card>
             <Card title="聯絡資訊" style={{margin:"1rem", marginBottom: "0", background:"#4FC0FF33"}}>
