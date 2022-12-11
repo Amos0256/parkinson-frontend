@@ -21,7 +21,7 @@ export default function AddPatient({ doctor, patients }){
     const genderchoice = [
         { name: '男性', code: 'male' },
         { name: '女性', code: 'female' },
-        { name: '其他', code: 'other' },
+        { name: '其他', code: 'unknown' },
     ];
     const [errorMessage,setErrorMessage] = useState({
         patientname: '', 
@@ -217,8 +217,8 @@ export default function AddPatient({ doctor, patients }){
     const renderFooter = (name) => {
         return (
             <div>
-                <Button label="取消" icon="pi pi-times" onClick={() => cancell(name)} className="p-button-text" />
-                <Button label="確認" icon="pi pi-check" style={{ background: '#4FC0FF'}} onClick={() => confirm(name)} autoFocus />
+                <Button label="取消" icon="pi pi-times" style={{color: 'rgb(82, 79, 79)'}} onClick={() => cancell(name)} className="p-button-text" />
+                <Button label="確認" icon="pi pi-check" style={{ background: '#4FC0FF', color: 'rgb(82, 79, 79)'}} onClick={() => confirm(name)} autoFocus />
             </div>
         );
     }

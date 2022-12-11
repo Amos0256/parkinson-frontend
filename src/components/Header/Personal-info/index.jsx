@@ -16,6 +16,9 @@ export default function Personal_info(){
         else if (code === "female") {
             return "女";
         }
+        else if (code === "unknown") {
+            return "其他";
+        }
         else {
             return null;
         }
