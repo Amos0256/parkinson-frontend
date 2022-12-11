@@ -12,7 +12,7 @@ export default function api(target, method, body) {
       body: JSON.stringify(body),
     })
       .then((res) => {
-        if (res.status === 200) {
+        if (res.status === 200 || res.status === 201 || res.status === 200) {
           return res.json();
         } else if (res.status === 401) {
           throw new Error("授權資訊錯誤");
