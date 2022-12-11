@@ -1,8 +1,13 @@
 
-/* .p-c
+.doctor .p-c
 {
-    color:rgb(82, 79, 79);
-} */
+  color:rgb(82, 79, 79) !important;
+} 
+
+.dialog-input h5
+{
+  display: block;
+}
 
 .button-check:hover
 {
@@ -30,7 +35,7 @@
 }
 .p-dropdown .dialog-input
 {
-  width: auto !important;
+  width: auto;
 }
 .dialog-input
 {

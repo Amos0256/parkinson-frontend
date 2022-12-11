@@ -24,10 +24,6 @@ export default function Table({ patients }) {
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     
     const formatDate = (value) => {
-        if (value == null){
-            return null;
-        }
-        
         return new Date(value).toLocaleDateString('zh-TW', {
             year: 'numeric',
             month: '2-digit',
