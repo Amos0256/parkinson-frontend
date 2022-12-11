@@ -78,6 +78,11 @@ export default function Table({ patients }) {
         if (missions_count == 0){
             return null;
         }
+        while (rowData.missions[missions_count-1]["uploaded_records"] === 0) {
+            if (missions_count-1 >= 1) {
+                missions_count = missions_count-1;
+            }
+        }
         return formatTime(rowData.missions[missions_count-1]["updated_at"]);
     }
     const progressBodyTemplate = (rowData) => {

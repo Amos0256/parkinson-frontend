@@ -33,7 +33,7 @@ export default function Doctor() {
   }, [isLogin, loading]);
 
   return (
-    <div>
+    <div className="doctor">
       <Header title={"主頁"}/>
       <AddPatient doctor={doctor} patients={patients}/>
       <Table patients={patients}/>
