@@ -3,9 +3,9 @@ import { useRef } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
-import { InputMask } from 'primereact/inputmask';
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
+import { Calendar } from 'primereact/calendar';
 import api from "utils/api";
 
 export default function AddPatient({ doctor, patients }){
@@ -85,7 +85,7 @@ export default function AddPatient({ doctor, patients }){
     
     const confirm = (name) => {
         if (checkValidation() === true){
-            addpatient(patientname, personal_id, phone, email, gender, birthday);
+            addpatient(patientname, personal_id, phone, email, gender, formatDate(birthday));
         }
     }
     const cancell = (name) => {
@@ -207,12 +207,21 @@ export default function AddPatient({ doctor, patients }){
         return valid;
     }
 
+    const formatDate = (value) => {
+        if (value == null){
+            return null;
+        }
+        return new Date(value).toLocaleDateString('zh-TW', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          });
+    }
+
     const onGenderChange = (e) => {
         setSelectedGender(e.value);
         setGender(e.value.code);
     }
-
-    
 
     const renderFooter = (name) => {
         return (
@@ -249,7 +258,7 @@ export default function AddPatient({ doctor, patients }){
                     <div className='dialog-content-1' style={{display:'flex', flexDirection:'row'}} >
                         <div className='dialog-input' >
                             <h5>生日(請輸入西元年月日)</h5>
-                            <InputMask value={birthday} mask="9999-99-99" placeholder="範例：1900-01-01" onChange={(e) => setBirthday(e.target.value)} />
+                            <Calendar value={birthday} mask="9999-99-99" onChange={(e) => setBirthday(e.target.value)} dateFormat="yy-mm-dd" />
                             {getErrorMessage('birthday')}
                         </div>
                         <div className='dialog-input'>

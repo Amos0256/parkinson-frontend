@@ -24,10 +24,6 @@ export default function Table({ patients }) {
     const [globalFilterValue, setGlobalFilterValue] = useState('');
     
     const formatDate = (value) => {
-        if (value == null){
-            return null;
-        }
-        
         return new Date(value).toLocaleDateString('zh-TW', {
             year: 'numeric',
             month: '2-digit',
@@ -77,11 +73,6 @@ export default function Table({ patients }) {
         let missions_count = rowData.missions.length;
         if (missions_count == 0){
             return null;
-        }
-        while (rowData.missions[missions_count-1]["uploaded_records"] === 0) {
-            if (missions_count-1 >= 1) {
-                missions_count = missions_count-1;
-            }
         }
         return formatTime(rowData.missions[missions_count-1]["updated_at"]);
     }

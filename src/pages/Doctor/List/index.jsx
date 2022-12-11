@@ -17,6 +17,7 @@ export default function Doctor() {
   useEffect(() => {
     if (loading) return;
     if (isLogin){
+      
       api("assoc-record", "GET")
       .then((json) => {
         setDoctor(json);
