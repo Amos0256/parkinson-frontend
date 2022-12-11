@@ -20,7 +20,7 @@ export default function ResultDataTable() {
   useEffect(() => {
     if (loading)
       return;
-  
+    console.log(record);
     if(isLogin){
       api("assoc-record", "GET")
       .then(res => {

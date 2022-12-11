@@ -35,12 +35,17 @@ export default function DropdownDemo() {
     const onPositionChange = (e) => {  
         // console.log(e.value);
         var flag = 0;
-        console.log(record);
+        //console.log(record);
         for(let i = 0; i<record.length; i++) {
             
             let value = JSON.stringify(e.value);
-            value = value[9] + value[10] + value[11] + value[12];
-            
+            console.log("value: ",value);
+            value = value.replace(/name/g, '');
+            value = value.replace(/"/g, '');
+            value = value.replace(/:/g, '');
+            value = value.replace(/{/g, '');
+            value = value.replace(/}/g, '');
+            console.log("value: ",value);
             if(record[i].category === value && record[i].status === '未上傳') {
                 // cur_record_id = i;
                 setselectedPosition(e.value);
@@ -57,13 +62,21 @@ export default function DropdownDemo() {
     useEffect(() => {
         if(selectedPosition !== null) {
             let value = JSON.stringify(selectedPosition);
-            value = value[9] + value[10] + value[11] + value[12];
+            value = value.replace(/name/g, '');
+            value = value.replace(/"/g, '');
+            value = value.replace(/:/g, '');
+            value = value.replace(/{/g, '');
+            value = value.replace(/}/g, '');
             form_context.setForm({...form_context.Form, option:selectedPosition.name});
+            
             for(let i = 0; i<record.length; i++) {
                 console.log(record[i]);
-                console.log(record[i].id);
+                console.log(record[i].mission_id);
+                console.log(value);
+                //console.log(record[i].id);
                 if(record[i].category === value && record[i].status === '未上傳') {
                     cur_record_id = i;
+                    console.log("mission_id: ", record[cur_record_id].mission_id);
                     break;
                 }
             }

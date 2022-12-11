@@ -29,16 +29,11 @@ export default function Upload() {
             // console.log('category: ', Form.option);
             // console.log('place: ', Form.place);
             // console.log('mission_id: ', record[cur_record_id].mission_id);
-            
-
-
             setStep(preStep => preStep + 1);
             // console.log(record[cur_record_id].mission_id)
-            
         }
         else {
             //console.log('Next: ', Next);
-
             alert('資料未填寫齊全!');
         }
     }
