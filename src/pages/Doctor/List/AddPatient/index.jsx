@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { useRef } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
-import { Toast } from 'primereact/toast';
 import { Calendar } from 'primereact/calendar';
 import api from "utils/api";
 
 export default function AddPatient({ doctor, patients }){
-    const toast = useRef(null);
     const [displayBasic, setDisplayBasic] = useState(false);
+    const [displayPassword, setDisplayPassword] = useState(false);
     const [patientname, setPatientname] = useState("");
     const [personal_id, setPersonal_id] = useState("");
     const [selectedGender, setSelectedGender] = useState("");
@@ -18,6 +16,9 @@ export default function AddPatient({ doctor, patients }){
     const [birthday, setBirthday] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("test1234");
+    const [showPw, setShowPw] = useState(false);
+
     const genderchoice = [
         { name: '男性', code: 'male' },
         { name: '女性', code: 'female' },
@@ -47,12 +48,11 @@ export default function AddPatient({ doctor, patients }){
           personal_id,
         })
           .then((res) => {
-            console.log(res);
-
             if (!res.errors) {
                 setDisplayBasic(false);
                 clearInput();
-                showSuccess(res.password);
+                setPassword(res.password);
+                setDisplayPassword(true);
             }    
             else if (res.errors) {
                 setErrorMessage({patientname: res.errors.name, personal_id: res.errors.personal_id, email: res.errors.email, phone: res.errors.phone, birthday: res.errors.birthday, gender: res.errors.gender});
@@ -69,10 +69,6 @@ export default function AddPatient({ doctor, patients }){
 
     const dialogFuncMap = {
         'displayBasic': setDisplayBasic
-    }
-
-    const showSuccess = (password) => {
-        toast.current.show({severity:'success', summary: '自動產生密碼(請立即複製)', detail: password, sticky: true});
     }
 
     const onClick = (name) => {
@@ -232,10 +228,44 @@ export default function AddPatient({ doctor, patients }){
         );
     }
 
+    const footer2 = (
+        <div>
+          <Button label="確定" style={{background: '#4FC0FF'}}
+          onClick={() => setDisplayPassword(false)}
+           />
+        </div>
+    );
+
     return (
         <div className="dialog-demo">
             <div className="card">
-                <Toast ref={toast}></Toast>
+            <Dialog
+                header={"新增成功"}
+                footer={footer2}
+                visible={displayPassword}
+                style={{ width: "350px" }}
+                onHide={() => setDisplayPassword(false)}
+            >
+                自動產生密碼如下，請盡快通知患者使用新密碼登入，並修改密碼!
+                <div className="p-inputgroup" style={{ marginTop: "20px" }}>
+                <span className="p-inputgroup-addon">
+                    <i className="pi pi-key"></i>
+                </span>
+                <InputText
+                    type={showPw ? "text" : "password"}
+                    value={password}
+                    placeholder="密碼"
+                    readOnly
+                />
+                <span
+                    className="p-inputgroup-addon"
+                    style={{ backgroundColor: "white", cursor: "pointer" }}
+                    onClick={() => setShowPw(!showPw)}
+                >
+                    <i className={`pi ${showPw ? "pi-eye-slash" : "pi-eye"}`}></i>
+                </span>
+                </div>
+                </Dialog>
                 <Button label="新增病患" icon="pi pi-fw pi-pencil" style={{background: 'white', margin: '10px', border: '0px'}} onClick={() => onClick('displayBasic')} />
                 <Dialog header="新增病患" visible={displayBasic} style={{ width: '60rem', height: 'auto'}} footer={renderFooter('displayBasic')} onHide={() => onHide('displayBasic')}>
                     <div className='dialog-content-1' style={{display:'flex', flexDirection:'row'}} >

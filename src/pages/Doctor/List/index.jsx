@@ -17,7 +17,9 @@ export default function Doctor() {
   useEffect(() => {
     if (loading) return;
     if (isLogin){
-      
+      if (user.roles[0].id === 2) {
+        navigate("/patient");
+      }
       api("assoc-record", "GET")
       .then((json) => {
         setDoctor(json);
