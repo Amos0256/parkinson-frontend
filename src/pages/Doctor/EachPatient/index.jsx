@@ -9,6 +9,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "utils/api";
 import AssignMissionModal from "./AssignMissionModal";
 import ExamDataTable from "./ExamDataTable/inedx";
+import style from "./style.module.css";
+
+const col_style = {
+  display: "flex",
+  alignItems: "center",
+  fontSize: "20px",
+  gap: 10,
+};
 
 export default function EachPatient() {
   const { loading, isLogin, user } = useAuth();
@@ -58,7 +66,6 @@ export default function EachPatient() {
   function modifyRecords(id, mod) {
     const mod_table = [...table];
 
-    
     const index = mod_table.findIndex((item) => item.id === id);
     mod_table[index] = {
       ...mod_table[index],
@@ -101,10 +108,36 @@ export default function EachPatient() {
       <Dialog
         header="個人資料"
         visible={profileModalShow}
-        style={{ width: "50vw" }}
+        style={{ width: "400px" }}
         onHide={() => setProfileModalShow(false)}
       >
-        {JSON.stringify(currentUser)}
+        <div style={{ textAlign: "center" }}>
+          <h2 style={{ marginTop: 0 }}>{currentUser.name}</h2>
+          <h3>{currentUser.personal_id}</h3>
+        </div>
+        <div style={{ textAlign: "center" }}>
+          {" "}
+          <div className={style["profile-row"]}>
+            <div className={style.title}>性別</div>
+            <div>{{
+              male:"男",
+              female:"女",
+              else:"其他",
+            }[currentUser.gender]}</div>
+          </div>
+          <div className={style["profile-row"]}>
+            <div className={style.title}>生日</div>
+            <div>{currentUser.birthday}</div>
+          </div>
+          <div className={style["profile-row"]}>
+            <div className={style.title}>電話</div>
+            <div>{currentUser.phone}</div>
+          </div>
+          <div className={style["profile-row"]}>
+            <div className={style.title}>電子郵件</div>
+            <div>{currentUser.email}</div>
+          </div>
+        </div>
       </Dialog>
       <AssignMissionModal
         uid={id}

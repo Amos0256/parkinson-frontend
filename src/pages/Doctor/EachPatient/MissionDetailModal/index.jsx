@@ -14,6 +14,19 @@ export default function MissionDetailModal({
   const [comment, setComment] = useState("");
   const [changed, setChanged] = useState(false);
 
+  const formatDate = (value) => {
+    return value
+      ? new Date(value).toLocaleDateString("zh-TW", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
+      : "N/A";
+  };
+
   useEffect(() => {
     if (record) {
       setComment(record.doctor_comment);
@@ -85,8 +98,25 @@ export default function MissionDetailModal({
         style={{ width: "350px" }}
         onHide={() => setMissionDetailModalShow(false)}
       >
-        <div style={{ textAlign: "right" }}></div>
-        <h3>期限</h3>
+        <h3>指派日期</h3>
+        {formatDate(record.created_at)}
+        <h3>上傳日期</h3>
+        {formatDate(record.submit_time)}
+        <h3>檢測結果</h3>
+        {(() => {
+          try {
+            const json = JSON.parse(record.result);
+            return (
+              <>
+                左：{json.left}
+                <br />
+                右：{json.right}
+              </>
+            );
+          } catch {
+            return "";
+          }
+        })()}
 
         <h3>評論</h3>
         <InputTextarea

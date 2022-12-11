@@ -1,0 +1,11 @@
+.profile-row {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    gap: 10px;
+}
+
+.profile-row .title {
+    width: 80px;
+    text-align: left;
+}
