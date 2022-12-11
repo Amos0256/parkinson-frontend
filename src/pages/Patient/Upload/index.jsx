@@ -10,6 +10,7 @@ import Header from '../../../components/Header';
 import ShowPage from './ShowPage';
 import api from 'utils/api';
 import { record } from '../List/ResultDataTable';
+import { cur_record_id } from './FirstPage/InputForm/Selector';
 import './StepsDemo.css';
 import './layout.css'
 
@@ -22,19 +23,18 @@ export default function Upload() {
         date:'', time:'', place: '', option: '',
     });
     function nextPage() {
+        
         if(Next) {
-            //console.log(Form);
-            setStep(preStep => preStep + 1);
+            // console.log('submit_time: ', Form.date,' ',Form.time);
+            // console.log('category: ', Form.option);
+            // console.log('place: ', Form.place);
+            // console.log('mission_id: ', record[cur_record_id].mission_id);
             
-            api('upload-record','POST',
-                {
-                    "submit_time": `${Form.date} ${Form.time}`,
-                    "category": Form.option,
-                    "location": Form.place,
-                    "mission_id":record.mission_id,
-                    "video":[{"serverId":"637f0ec7a5a1b-1669271239", "filename":"test.mp4"}]
-                }
-            );
+
+
+            setStep(preStep => preStep + 1);
+            // console.log(record[cur_record_id].mission_id)
+            
         }
         else {
             //console.log('Next: ', Next);

@@ -1,8 +1,8 @@
 
-.p-c
+/* .p-c
 {
     color:rgb(82, 79, 79);
-}
+} */
 
 .button-check:hover
 {
@@ -28,7 +28,7 @@
   position: absolute;
   font-weight: bold;
 }
-.p-dropdown
+.p-dropdown .dialog-input
 {
   width: auto !important;
 }

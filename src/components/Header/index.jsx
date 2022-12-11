@@ -96,3 +96,5 @@ export default function Header({ title }) {
     </div>
   );
 }
+
+//如mission欄位中的status == 未上傳 為空，上傳影片鍵消失?

@@ -5,6 +5,7 @@ import '../../InputBar.css';
 import { formContext } from 'pages/Patient/Upload/formContext';
 import { record } from 'pages/Patient/List/ResultDataTable';
 export var pos = null;
+export var cur_record_id = '';
 
 export default function DropdownDemo() {
     const form_context = useContext(formContext);
@@ -34,10 +35,17 @@ export default function DropdownDemo() {
     const onPositionChange = (e) => {  
         // console.log(e.value);
         var flag = 0;
+        console.log(record);
         for(let i = 0; i<record.length; i++) {
-            if(record[i].category === e.value) {
+            
+            let value = JSON.stringify(e.value);
+            value = value[9] + value[10] + value[11] + value[12];
+            
+            if(record[i].category === value && record[i].status === '未上傳') {
+                // cur_record_id = i;
                 setselectedPosition(e.value);
                 flag = 1;
+                break;
             }
         }
         if(flag === 0) {
@@ -48,7 +56,17 @@ export default function DropdownDemo() {
     }
     useEffect(() => {
         if(selectedPosition !== null) {
+            let value = JSON.stringify(selectedPosition);
+            value = value[9] + value[10] + value[11] + value[12];
             form_context.setForm({...form_context.Form, option:selectedPosition.name});
+            for(let i = 0; i<record.length; i++) {
+                console.log(record[i]);
+                console.log(record[i].id);
+                if(record[i].category === value && record[i].status === '未上傳') {
+                    cur_record_id = i;
+                    break;
+                }
+            }
         }
         
     }, [selectedPosition]);
