@@ -8,13 +8,13 @@ import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { getExamName } from "utils/getName";
 import MissionDetailModal from "../MissionDetailModal";
+import { FilterService } from "primereact/api";
 
-const matchDateModes = [
-  { label: "等於", value: FilterMatchMode.DATE_IS },
-  { label: "不等於", value: FilterMatchMode.DATE_IS_NOT },
-  { label: "早於", value: FilterMatchMode.DATE_BEFORE },
-  { label: "晚於", value: FilterMatchMode.DATE_AFTER },
-];
+FilterService.register("date-filter", (a, b) => {
+  if (!b) return true;
+  console.log(a, b);
+  return new Date(a).toDateString() === new Date(b).toDateString();
+});
 
 export default function ExamDataTable({ modifyRecords, loading, data }) {
   const [filters, setFilters] = useState({
@@ -22,9 +22,13 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
       value: null,
       matchMode: FilterMatchMode.CONTAINS,
     },
-    date: {
+    created_at: {
       value: null,
-      matchMode: FilterMatchMode.DATE_IS,
+      matchMode: "date-filter",
+    },
+    submit_time: {
+      value: null,
+      matchMode: "date-filter",
     },
     status: {
       value: null,
@@ -264,12 +268,12 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
             header="指派時間"
             dataType="date"
             sortable
-            filterField="date"
+            filterField="created_at"
             body={createTimeBodyTemplate}
             filter
             filterElement={dateFilterTemplate}
-            filterPlaceholder="篩選時間"
-            filterMatchModeOptions={matchDateModes}
+            filterPlaceholder="篩選日期"
+            showFilterMatchModes={false}
             filterApply={filterApplyTemplate}
             filterClear={filterClearTemplate}
           />
@@ -278,12 +282,12 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
             header="上傳時間"
             dataType="date"
             sortable
-            filterField="date"
+            filterField="submit_time"
             body={uploadTimeBodyTemplate}
             filter
             filterElement={dateFilterTemplate}
-            filterPlaceholder="篩選時間"
-            filterMatchModeOptions={matchDateModes}
+            filterPlaceholder="篩選日期"
+            showFilterMatchModes={false}
             filterApply={filterApplyTemplate}
             filterClear={filterClearTemplate}
           />
