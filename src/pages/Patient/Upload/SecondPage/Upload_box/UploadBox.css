@@ -36,12 +36,12 @@
     margin-right: auto;
 }
 .p-button.second-button {
-    border: #76DB9B !important;
-    background-color: #A0E6BA;
-    color: black;
+    border: solid #b0e0c1 1.5px!important;
+    background-color: #C8E6C9;
+    color: #256029;
 }
 .p-button.second-button:hover {
-    border: #76DB9B !important;
-    color: black !important;
-    background-color: #76DB9B !important;
+    border: solid #91cfa8 1.5px!important;
+    color: #256029 !important;
+    background-color: #b6e1b8 !important;
 }

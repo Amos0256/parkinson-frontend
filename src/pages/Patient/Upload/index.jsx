@@ -80,15 +80,15 @@ export default function Upload() {
                     <Steps model={items} activeIndex={Step} readOnly={false}/>
                 </div>
             </div>
-            <span>Form: {Form.date}</span>
+            {/* <span>Form: {Form.date}</span>
             <br/>
             <span>Form: {Form.time}</span>
             <br/>
             <span>Form: {Form.place}</span>
             <br/>
             <span>Form: {Form.option}</span>
-            <br/>
-            <span>` ${typeof Form.date} ${Form.time}`</span>
+            <br/> */}
+            
             <div className="main-func">
             <stepContext.Provider value={{Step, setStep}}>
                 <nextContext.Provider value={{Next, setNext}}>

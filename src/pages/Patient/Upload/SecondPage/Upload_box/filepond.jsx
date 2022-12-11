@@ -49,7 +49,7 @@ export default function FileUpload() {
         labelIdle='請拖移檔案至此 或是 <span class="filepond--label-action">瀏覽</span>'
         credits="false"
         allowMultiple={true}
-        onprocessfile={ () => {
+        onprocessfile={ (error, files) => {
             setFileState('完成');
             //console.log(fileState);
             const cur_file = filepondRef.current.getFiles();

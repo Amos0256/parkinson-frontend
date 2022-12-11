@@ -10,6 +10,7 @@ import React from "react";
 import "./header.css";
 import icon from "./parkinson.png";
 import Personal_info from "./Personal-info";
+import { record } from "pages/Patient/List/ResultDataTable";
 
 
 export default function Header({ title }) {
@@ -58,12 +59,23 @@ export default function Header({ title }) {
                     icon="pi pi-fw pi-upload"
                     className="p-button-text upload-button"
                     onClick={() => {
-                      navigate('/patient/upload', {
+                      let flag = 0;
+                      for(let i = 0; i<record.length;i++) {
+                        if(record[i].status === '未上傳') {
+                          flag = 1;
+                        }
+                      }
+                      if(flag) {
+                        navigate('/patient/upload', {
                           state: {
                             option: "",
                           }
-                        }
-                      )
+                        })
+                      }
+                      else {
+                        alert('目前無待檢測項目，無須上傳檢測影片!');
+                      }
+                      
                     }}
                   />
                 );
