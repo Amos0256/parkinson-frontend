@@ -9,14 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "utils/api";
 import AssignMissionModal from "./AssignMissionModal";
 import ExamDataTable from "./ExamDataTable/inedx";
+import ResetPasswordModal from "./ResetPasswordModal";
 import style from "./style.module.css";
-
-const col_style = {
-  display: "flex",
-  alignItems: "center",
-  fontSize: "20px",
-  gap: 10,
-};
 
 export default function EachPatient() {
   const { loading, isLogin, user } = useAuth();
@@ -25,8 +19,10 @@ export default function EachPatient() {
   const [currentUser, setCurrentUser] = useState({});
   const [profileModalShow, setProfileModalShow] = useState(false);
   const [assignModalShow, setAssignModalShow] = useState(false);
+  const [resetModalState, setResetModalState] = useState(0);
   const [table, setTable] = useState([]);
   const [tableLoading, setTableLoading] = useState(true);
+
   function getRecords() {
     api(`users/${id}`, "GET")
       .then((json) => {
@@ -78,6 +74,11 @@ export default function EachPatient() {
     <div>
       <Header />
       <div style={{ padding: 10 }}>
+        <h3 style={{ paddingLeft: 20 }}>
+          {currentUser.personal_id}{" "}
+          <span style={{ display: "inline-block", width: 20 }} />{" "}
+          {currentUser.name}
+        </h3>
         <Button
           onClick={() => setProfileModalShow(true)}
           label="個人資料"
@@ -93,6 +94,7 @@ export default function EachPatient() {
           className="p-button-secondary p-button-text"
         />
         <Button
+          onClick={() => setResetModalState(1)}
           label="重置密碼"
           icon="pi pi-refresh"
           iconPos="left"
@@ -119,11 +121,15 @@ export default function EachPatient() {
           {" "}
           <div className={style["profile-row"]}>
             <div className={style.title}>性別</div>
-            <div>{{
-              male:"男",
-              female:"女",
-              else:"其他",
-            }[currentUser.gender]}</div>
+            <div>
+              {
+                {
+                  male: "男",
+                  female: "女",
+                  else: "其他",
+                }[currentUser.gender]
+              }
+            </div>
           </div>
           <div className={style["profile-row"]}>
             <div className={style.title}>生日</div>
@@ -145,6 +151,11 @@ export default function EachPatient() {
         setAssignModalShow={setAssignModalShow}
         concatRecords={concatRecords}
         reload={getRecords}
+      />
+      <ResetPasswordModal
+        uid={id}
+        resetModalState={resetModalState}
+        setResetModalState={setResetModalState}
       />
     </div>
   );
