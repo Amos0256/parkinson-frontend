@@ -1,26 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
-import { Route, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './index.css';
 import api from 'utils/api';
 import useAuth from 'hooks/useAuth';
 
 export default function Progress() {
-  const { loading, isLogin } = useAuth();
+  const { loading, isLogin, user } = useAuth();
   const [gripvisible, setGripVisible] = useState(false);
   const [pinchvisible, setPinchVisible] = useState(false);
   const [turnvisible, setTurnVisible] = useState(false);
   const [liftvisible, setLiftVisible] = useState(false);
+  const [missionnum, setMissionNum] = useState(0);
   const [process, setProcess] = useState(0);
   let record = [];
-
+  
+  
   useEffect(() => {
     if (loading)
       return;
     
     if(isLogin){
-      api("assoc-record", "GET")
+      if (user.roles[0].id === 1) {
+        navigate("/doctor");
+      }
+      else {
+        api("assoc-record", "GET")
         .then(res => {
           let mission_len = (res.missions).length;
           let mission = res.missions[mission_len - 1];
@@ -28,52 +34,52 @@ export default function Progress() {
           for (let i = 0; i < (mission.records).length; i++){
             record.push(mission.records[i]);
           }
-
-          setProcess(100);
+          setMissionNum(record.length);
+          
+          setProcess(record.length);
           for(let i = 0; i < record.length; i++) {
             if(record[i].category === "手部抓握") {
               if(record[i].status === "未上傳") {
                   setGripVisible(true);
-                  setProcess(prev => prev - 25);
+                  setProcess(prev => prev - 1);
               }
             }
             else if(record[i].category === "手指捏握") {
               if(record[i].status === "未上傳") {
                 setPinchVisible(true);
-                setProcess(prev => prev - 25);
+                setProcess(prev => prev - 1);
               }
             }
             else if(record[i].category === "手掌翻面") {
               if(record[i].status === "未上傳") {
                 setTurnVisible(true);
-                setProcess(prev => prev - 25);
+                setProcess(prev => prev - 1);
               }
             }
             else {
               if(record[i].status === "未上傳") {
                 setLiftVisible(true);
-                setProcess(prev => prev - 25);
+                setProcess(prev => prev - 1);
               }
             }
-          }
+          }         
         })
         .catch((e) => {
           alert(e.message);
         });
+      }
+    }
+    else {
+      navigate('/login');
     }
   }, [isLogin, loading]);
   
+  function CalProcess() {
+    return process / missionnum * 100;
+  }
+
   const displayValueTemplate = (value) => {
-    if (value === 0)
-      return '0 / 4';
-    else if(value === 25)
-      return '1 / 4';
-    else if(value === 50)
-      return '2 / 4';
-    else if(value === 75)
-      return '3 / 4';
-    else if(value === 100)
-      return '4 / 4';
+    return process + "/" + missionnum;
   }
 
   const navigate = useNavigate();
@@ -97,14 +103,13 @@ export default function Progress() {
   function liftSelect() {
     uploadPage("lift");
   }
-  
 
   return (
     <div className="progress">
       <div className="progressbar">
         <h3>檢測進度條</h3>
         <ProgressBar 
-          value={process}
+          value={CalProcess()}
           displayValueTemplate={displayValueTemplate}
         />
       </div>

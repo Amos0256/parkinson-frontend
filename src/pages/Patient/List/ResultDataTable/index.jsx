@@ -12,7 +12,7 @@ import useAuth from 'hooks/useAuth';
 export var record = [];
 
 export default function ResultDataTable() {
-  const { loading, isLogin } = useAuth();
+  const { loading, isLogin, user } = useAuth();
   const navigate = useNavigate();
   const [ records, setRecords ] = useState([]);
   
@@ -20,24 +20,30 @@ export default function ResultDataTable() {
   useEffect(() => {
     if (loading)
       return;
-    console.log(record);
+  
     if(isLogin){
-      api("assoc-record", "GET")
-      .then(res => {
-        let missions = res.missions;
-        record.length = 0;
-        for (let i = 0; i < missions.length; i++){
-          let temp = missions[i].records;
-          for (let j = 0; j < temp.length; j++){
-            record.push(temp[j]);
+      if (user.roles[0].id === 1) {
+        navigate("/doctor");
+      }
+      else {
+        api("assoc-record", "GET")
+        .then(res => {
+          let missions = res.missions;
+          record.length = 0;
+          for (let i = 0; i < missions.length; i++){
+            let temp = missions[i].records;
+            for (let j = 0; j < temp.length; j++){
+              (temp[j])['times'] = "第" + (i + 1) + "次";
+              record.push(temp[j]);
+            }
           }
-        }
-        dataProcess();
-        setRecords(record);
-      })
-      .catch((e) => {
-        alert(e.message);
-      });
+          dataProcess();
+          setRecords(record);
+        })
+        .catch((e) => {
+          alert(e.message);
+        });
+      }
     }
     else {
       navigate('/login');
@@ -186,6 +192,11 @@ export default function ResultDataTable() {
       filters={filter}
       header={header}
     >
+      <Column
+        field="times"
+        header="任務次數"
+        sortable
+      />
       <Column 
         field="category"
         header="檢測項目"
