@@ -11,3 +11,11 @@
   display: inline-block;
   vertical-align: top;
 }
+.progressbar-finish .p-progressbar-value {
+  background: #76DB9B !important;
+  
+}
+.progressbar-finish .p-progressbar-value .p-progressbar-label {
+  color: #256029;
+  font-weight: 500;
+}

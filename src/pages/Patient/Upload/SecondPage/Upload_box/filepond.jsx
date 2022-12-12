@@ -48,7 +48,6 @@ export default function FileUpload() {
         // instantUpload={false}
         labelIdle='請拖移檔案至此 或是 <span class="filepond--label-action">瀏覽</span>'
         credits="false"
-        allowMultiple={true}
         onprocessfile={ (error, files) => {
             setFileState('完成');
             //console.log(fileState);
@@ -82,9 +81,6 @@ export default function FileUpload() {
         onremovefile={ (error, files) => {
             setFileState('取消');
         }}
-        
-        
-       
       />
       <div className="b-layout">
         <div className='sec-button'>

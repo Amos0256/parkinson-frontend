@@ -60,8 +60,12 @@ export default function Header({ title }) {
                     className="p-button-text upload-button"
                     onClick={() => {
                       let flag = 0;
+                      console.log(record);
+                      let max = 0;
                       for(let i = 0; i<record.length;i++) {
-                        if(record[i].status === '未上傳') {
+                        flag = 0;
+                        if(record[i].status === '未上傳' && record[i].mission_id > max) {
+                          max = record[i].mission_id;
                           flag = 1;
                         }
                       }

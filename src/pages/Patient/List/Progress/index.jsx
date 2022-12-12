@@ -108,14 +108,46 @@ export default function Progress() {
     <div className="progress">
       <div className="progressbar">
         <h3>檢測進度條</h3>
-        <ProgressBar 
-          value={CalProcess()}
-          displayValueTemplate={displayValueTemplate}
-        />
+        {(() => {
+          
+          if(CalProcess() === 100) {
+            return (
+              <div>
+                <ProgressBar 
+                  className='progressbar-finish'
+                  value={CalProcess()}
+                  displayValueTemplate={displayValueTemplate
+                  }
+                />
+              </div>
+            )
+          } else {
+            return (
+              <div>
+                <ProgressBar 
+                    value={CalProcess()}
+                    displayValueTemplate={displayValueTemplate}
+                  />
+              </div>
+            )
+          }
+        })()}
       </div>
-
       <div className="waiting-exam">
-        <h3 className="item-text">待檢測項目</h3>
+        {(() => {
+        // console.log(CalProcess()); 
+          if(CalProcess() === 100) {
+            return (
+              <h3 className="item-text" style={{'color':'gray'}}>待檢測項目</h3>
+            );
+          }
+          else {
+            return (
+              <h3 className="item-text">待檢測項目</h3>
+            );
+          } 
+        })()}
+        {/* <h3 className="item-text">待檢測項目</h3> */}
         <Button
           className="p-button-outlined"
           label="手部抓握"
