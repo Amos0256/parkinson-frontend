@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import './index.css';
 import api from 'utils/api';
 import useAuth from 'hooks/useAuth';
+import { upload_button } from 'pages/Patient/Upload';
 
 export default function Progress() {
   const { loading, isLogin, user } = useAuth();
@@ -84,11 +85,18 @@ export default function Progress() {
 
   const navigate = useNavigate();
   function uploadPage(opt) {
-    navigate('/patient/upload',{
-      state: {
-        option: opt,
-      }
-    });
+    
+    if(opt === null) {
+      navigate('/patient/upload');
+    }
+    else {
+      navigate('/patient/upload',{
+        state: {
+          option: opt,
+        }
+      });
+    }
+    
   }
 
   function gripSelect() {

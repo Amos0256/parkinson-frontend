@@ -1,22 +1,21 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Steps } from 'primereact/steps';
 import { Toast } from 'primereact/toast'; 
 import { Button } from 'primereact/button';
-
+import useAuth from 'hooks/useAuth';
 import { stepContext } from 'pages/Patient/Upload/stepContext';
 import { nextContext } from 'pages/Patient/Upload/nextContext';
 import { formContext } from './formContext';
 import Header from '../../../components/Header';
 import ShowPage from './ShowPage';
-import api from 'utils/api';
-import { record } from '../List/ResultDataTable';
-import { cur_record_id } from './FirstPage/InputForm/Selector';
 import './StepsDemo.css';
 import './layout.css'
 
+export var upload_button = 0;
 
 export default function Upload() {
-
+    const location = useLocation();
     const [Next, setNext] = useState(0);
     const [Step, setStep] = useState(0);
     const [Form, setForm] = useState({
@@ -37,15 +36,8 @@ export default function Upload() {
             alert('資料未填寫齊全!');
         }
     }
-    // function prePage() {
-    //     setStep(preStep => preStep - 1)
-    // }
-    // function BacktoFirstPage() {
-    //     setStep(Step => 0)
-    // }
-    // function Confirm() {
-    //     navigate('/patient');
-    // }
+    const { loading, isLogin, user } = useAuth();
+    const navigate = useNavigate();
 
     const toast = useRef(null);
     const items = [
@@ -62,6 +54,18 @@ export default function Upload() {
             }
         },
     ];
+
+    useEffect(() => {
+        if (loading) return;
+        if (isLogin) {
+          if (user.roles[0].id === 1) {
+            navigate("/doctor");
+            alert('你沒有權限進入此頁面!');
+          }
+        } else {
+          navigate("/login");
+        }
+      }, [isLogin, loading]);
 
    
     return (

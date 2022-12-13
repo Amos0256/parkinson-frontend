@@ -1,29 +1,61 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useLocation, Route } from 'react-router-dom';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
+import { useLocation, Route, useNavigate } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
 import '../../InputBar.css';
 import { formContext } from 'pages/Patient/Upload/formContext';
 import { record } from 'pages/Patient/List/ResultDataTable';
+import useAuth from 'hooks/useAuth';
 export var pos = null;
 export var cur_record_id = '';
-
+var id = 0;
 export default function DropdownDemo() {
     const form_context = useContext(formContext);
     const location = useLocation();
-    if(location.state.option === "grip") {
-        pos = { name: '手部抓握'};
-    }
-    else if (location.state.option === "pinch") {
-        pos = { name: '手指捏握'};
-    }
-    else if (location.state.option === "turn") {
-        pos = { name: '手掌翻面'};
-    }
-    else if(location.state.option === "lift") {
-        pos = { name: '抬腳'};
-    }
-    const [selectedPosition, setselectedPosition] = useState(pos);
     
+    const { loading, isLogin, user } = useAuth();
+    
+    useMemo(() => {
+        if (loading) return;
+        if (isLogin) {
+            if(user.roles[0].id === 2) {
+                id = 2;
+            }
+        }
+        return;
+    }, [isLogin, loading]);
+    //location.state.prePath === '/patient'
+    
+        
+    if(id === 2) {
+        if(location.state.option === "grip") {
+           pos = { name: '手部抓握'};
+        }
+        else if (location.state.option === "pinch") {
+            pos = { name: '手指捏握'};
+        }
+        else if (location.state.option === "turn") {
+            pos = { name: '手掌翻面'};
+        }
+        else if(location.state.option === "lift") {
+            pos = { name: '抬腳'};
+        }
+    }
+    
+    // if(id === 2) {
+    //     if(location.state.option === "grip") {
+    //         pos = { name: '手部抓握'};
+    //     }
+    //     else if (location.state.option === "pinch") {
+    //         pos = { name: '手指捏握'};
+    //     }
+    //     else if (location.state.option === "turn") {
+    //         pos = { name: '手掌翻面'};
+    //     }
+    //     else if(location.state.option === "lift") {
+    //         pos = { name: '抬腳'};
+    //     }
+    // }
+    const [selectedPosition, setselectedPosition] = useState(pos);
     
     const handPos = [
         { name: '手部抓握'},

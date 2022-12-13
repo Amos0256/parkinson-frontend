@@ -35,14 +35,14 @@ export default function FirstPage () {
     return (
         <div> 
             <InputForm />
-            <br/>
+            {/* <br/>
             <span>{form_context.Form.date}</span>
             <br/>
             <span>{form_context.Form.time}</span>
             <br/>
             <span>{form_context.Form.place}</span>
             <br/>
-            <span>{form_context.Form.option}</span>
+            <span>{form_context.Form.option}</span> */}
         </div>  
     );
 }

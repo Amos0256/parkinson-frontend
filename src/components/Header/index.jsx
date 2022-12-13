@@ -11,6 +11,8 @@ import "./header.css";
 import icon from "./parkinson.png";
 import Personal_info from "./Personal-info";
 import { record } from "pages/Patient/List/ResultDataTable";
+import { upload_button } from "pages/Patient/Upload";
+import { upload } from "@testing-library/user-event/dist/upload";
 
 
 export default function Header({ title }) {
@@ -63,13 +65,15 @@ export default function Header({ title }) {
                       console.log(record);
                       let max = 0;
                       for(let i = 0; i<record.length;i++) {
-                        flag = 0;
+                        
                         if(record[i].status === '未上傳' && record[i].mission_id > max) {
                           max = record[i].mission_id;
                           flag = 1;
                         }
+                        
                       }
                       if(flag) {
+                        
                         navigate('/patient/upload', {
                           state: {
                             option: "",
@@ -113,4 +117,3 @@ export default function Header({ title }) {
   );
 }
 
-//如mission欄位中的status == 未上傳 為空，上傳影片鍵消失?

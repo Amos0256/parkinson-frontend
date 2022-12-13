@@ -15,6 +15,7 @@ export default function List() {
     if (isLogin) {
       if (user.roles[0].id === 1) {
         navigate("/doctor");
+        alert('你沒有權限進入此頁面!');
       }
     } else {
       navigate("/login");
