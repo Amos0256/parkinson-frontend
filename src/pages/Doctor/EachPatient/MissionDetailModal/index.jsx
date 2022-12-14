@@ -48,6 +48,9 @@ export default function MissionDetailModal({
         .finally(() => {
           setMissionDetailModalShow(false);
         });
+    }else {
+      // if not changed and click finish?
+      setMissionDetailModalShow(false);
     }
   }
 

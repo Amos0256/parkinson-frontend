@@ -48,7 +48,7 @@ export default function AssignMissionModal({
       <Button
         className="p-button-secondary p-button-text"
         label="取消"
-        onClick={() => setAssignModalShow(true)}
+        onClick={() => setAssignModalShow(false)}
       />
       <Button label="指派" onClick={finish} disabled={!checkData()} />
     </div>
