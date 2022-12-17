@@ -6,9 +6,9 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
-import { getExamName } from "utils/getName";
 import MissionDetailModal from "../MissionDetailModal";
 import { FilterService } from "primereact/api";
+import VideoDisplayModal from "../VideoDisplayModal";
 
 FilterService.register("date-filter", (a, b) => {
   if (!b) return true;
@@ -42,6 +42,9 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
   const [globalFilterValue, setGlobalFilterValue] = useState("");
   const [missionDetailModalShow, setMissionDetailModalShow] = useState(false);
   const [detailRecord, setDetailRecord] = useState(null);
+
+  const [videoModalShow, setVideoModalShow] = useState(false);
+  const [videoRecordId, setVideoRecordId] = useState(null);
 
   const statuses = ["未上傳", "未處理", "待檢閱", "已檢閱"];
 
@@ -235,6 +238,22 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
     );
   };
 
+  const videoBodyTemplate = ({ status, id }) => {
+    function open() {
+      setVideoModalShow(true);
+      setVideoRecordId(id);
+    }
+    return (
+      <Button
+        disabled={
+          !(status === "未處理" || status === "已檢閱" || status === "待檢閱")
+        }
+        onClick={open}
+        icon={<i className="pi pi-play" />}
+      />
+    );
+  };
+
   const header = renderHeader();
 
   return (
@@ -323,12 +342,19 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
             body={feedbackBodyTemplate}
           />
           <Column body={moreBodyTemplate} />
+          <Column body={videoBodyTemplate} />
         </DataTable>
         <MissionDetailModal
           missionDetailModalShow={missionDetailModalShow}
           setMissionDetailModalShow={setMissionDetailModalShow}
           record={detailRecord}
           modifyRecords={modifyRecords}
+        />
+
+        <VideoDisplayModal
+          videoModalShow={videoModalShow}
+          setVideoModalShow={setVideoModalShow}
+          rid={videoRecordId}
         />
       </div>
     </div>

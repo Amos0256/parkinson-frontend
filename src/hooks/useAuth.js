@@ -66,7 +66,7 @@ export default function useAuth() {
       credentials: "include",
       headers: {
         accept: "application/json",
-        authorization: "Bearer" + token,
+        authorization: "Bearer " + token,
         "content-type": "application/json;charset=UTF-8",
         "x-csrf-token": "",
       },
