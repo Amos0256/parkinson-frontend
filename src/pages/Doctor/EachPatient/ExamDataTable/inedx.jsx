@@ -18,6 +18,10 @@ FilterService.register("date-filter", (a, b) => {
 
 export default function ExamDataTable({ modifyRecords, loading, data }) {
   const [filters, setFilters] = useState({
+    global: {
+      value: "",
+      matchMode: FilterMatchMode.CONTAINS,
+    },
     category: {
       value: null,
       matchMode: FilterMatchMode.CONTAINS,
@@ -113,6 +117,10 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
 
   const examBodyTemplate = ({ category }) => {
     return category;
+  };
+
+  const locationBodyTemplate = ({ location }) => {
+    return location;
   };
 
   const createTimeBodyTemplate = ({ created_at }) => {
@@ -241,7 +249,7 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
           filterDisplay="menu"
           loading={loading}
           responsiveLayout="scroll"
-          globalFilterFields={["category"]}
+          globalFilterFields={["category", "location", "doctor_comment"]}
           emptyMessage="尚未有完成的檢測"
         >
           <Column
@@ -262,6 +270,12 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
             filterPlaceholder="篩選檢測項目"
             filterApply={filterApplyTemplate}
             filterClear={filterClearTemplate}
+          />
+          <Column
+            field="location"
+            header="上傳地點"
+            sortable
+            body={locationBodyTemplate}
           />
           <Column
             field="created_at"
@@ -304,7 +318,7 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
             filterClear={filterClearTemplate}
           />
           <Column
-            field="feedback"
+            field="doctor_comment"
             header="醫師回饋"
             body={feedbackBodyTemplate}
           />
