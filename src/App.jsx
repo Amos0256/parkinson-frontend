@@ -1,5 +1,5 @@
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import AuthHost from 'components/AuthHost'
 import Home from "pages/Home";
 import Doctor from "pages/Doctor/List";
@@ -11,7 +11,7 @@ import EachPatient from "pages/Doctor/EachPatient";
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <Navigate to="/login" />,
   },
   {
     path: '/login',
