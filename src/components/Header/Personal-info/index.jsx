@@ -9,20 +9,16 @@ export default function Personal_info(){
     const [currentUser, setCurrentUser] = useState([]);
     const { user, isLogin, loading } = useAuth();
     const navigate = useNavigate("");
-    function genderDecode(code){
-        if (code === "male") {
-            return "男";
-        } 
-        else if (code === "female") {
-            return "女";
-        }
-        else if (code === "unknown") {
-            return "其他";
-        }
-        else {
-            return null;
-        }
-    }
+    const profilerow = {
+        display: 'flex',
+        alignItems: 'center',
+        fontSize: '18px',
+        gap: '10px'
+    };
+    const profiletitle = {
+        width: '80px',
+        textAlign: 'left'
+    };
 
     useEffect(() => {
         if (loading) return;
@@ -43,30 +39,37 @@ export default function Personal_info(){
 
     return(
         <div>
-            <Card title="基本資料" style={{margin:"1rem", marginTop: "0px", background:"#4FC0CF33"}}>
-                <h3>
-                    姓名 {currentUser.name}
-                </h3>
-                <h3>
-                    身分證字號 {currentUser.personal_id}
-                </h3>
-                <h3>
-                    生日 {currentUser.birthday}
-                </h3>
-                <h3>
-                    性別 {genderDecode(currentUser.gender)}
-                </h3>
-
-                
-            </Card>
-            <Card title="聯絡資訊" style={{margin:"1rem", marginBottom: "0", background:"#4FC0FF33"}}>
-                <h3>
-                    電子信箱 {currentUser.email}
-                </h3>
-                <h3>
-                    連絡電話 {currentUser.phone}
-                </h3>
-            </Card>
+            <div style={{ textAlign: "center" }}>
+                <h2 style={{ marginTop: 0 }}>{currentUser.name}</h2>
+                <h3>{currentUser.personal_id}</h3>
+            </div>
+            <div style={{ textAlign: "center" }}>
+                {" "}
+                <div style={profilerow}>
+                    <div style={profiletitle}>性別</div>
+                    <div>
+                        {
+                            {
+                                male: "男",
+                                female: "女",
+                                else: "其他",
+                            }[currentUser.gender]
+                        }
+                    </div>
+                </div>
+                <div style={profilerow}>
+                    <div style={profiletitle}>生日</div>
+                    <div>{currentUser.birthday}</div>
+                </div>
+                <div style={profilerow}>
+                    <div style={profiletitle}>電話</div>
+                    <div>{currentUser.phone}</div>
+                </div>
+                <div style={profilerow}>
+                    <div style={profiletitle}>電子郵件</div>
+                    <div>{currentUser.email}</div>
+                </div>
+            </div>
         </div>
     )
 
