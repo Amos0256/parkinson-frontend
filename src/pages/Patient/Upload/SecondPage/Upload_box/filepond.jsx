@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FilePond, registerPlugin } from "react-filepond";
 import "filepond/dist/filepond.min.css";
-
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
@@ -14,7 +14,7 @@ import { formContext } from "../../formContext";
 import { record } from "pages/Patient/List/ResultDataTable";
 import { cur_record_id } from "../../FirstPage/InputForm/Selector";
 
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview, FilePondPluginFileValidateSize);
 export const fileContext = createContext(null);
 
 export default function FileUpload() {
@@ -40,12 +40,12 @@ export default function FileUpload() {
           },
         }}
         name="video"
-        acceptedFileTypes={["video/mp4"]}
+        acceptedFileTypes={["video/mp4", "/video/mov", "video/avi"]}
         allowDrop={true}
         dropValidation={true}
         allowBrowse={true}
         checkValidity={true}
-        // instantUpload={false}
+        maxFileSize="100MB"
         labelIdle='請拖移檔案至此 或是 <span class="filepond--label-action">瀏覽</span>'
         credits="false"
         onprocessfile={ (error, files) => {
