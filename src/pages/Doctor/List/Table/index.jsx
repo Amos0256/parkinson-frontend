@@ -74,7 +74,7 @@ export default function Table({ patients }) {
         if (missions_count == 0){
             return null;
         }
-        return formatTime(rowData.missions[missions_count-1]["updated_at"]);
+        return formatTime(rowData.missions[missions_count-1]["latest_video_uploaded_at"]);
     }
     const progressBodyTemplate = (rowData) => {
         let missions_count = rowData.missions.length;
