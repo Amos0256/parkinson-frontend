@@ -31,7 +31,16 @@ export default function Table({ patients }) {
           });
     }
     const formatTime = (value) => {
-        return moment(value).format("YYYY/MM/D, HH:mm");
+        return value
+        ? new Date(value).toLocaleDateString("zh-TW", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })
+        : "N/A";
     }
     const displayValueTemplate = (value) => {
         return (
@@ -67,7 +76,7 @@ export default function Table({ patients }) {
         if (missions_count == 0){
             return null;
         }
-        return formatDate(rowData.missions[missions_count-1]["created_at"]);
+        return formatTime(rowData.missions[missions_count-1]["created_at"]);
     }
     const lastUploadBodyTemplate = (rowData) => {
         let missions_count = rowData.missions.length;
@@ -124,7 +133,7 @@ export default function Table({ patients }) {
                     filters={filters} responsiveLayout="scroll"
                     globalFilterFields={['name']} emptyMessage="沒有任何患者資料">
                     <Column field="name" header="姓名" sortable style={{ minWidth: '14rem' }} body={nameBodyTemplate}/>
-                    <Column field="created_at" header="上次就診日期" sortable sortFunction={customSort} dataType="date" style={{ minWidth: '8rem' }} body={dateBodyTemplate}/>
+                    <Column field="created_at" header="上次指派任務時間" sortable sortFunction={customSort} dataType="date" style={{ minWidth: '8rem' }} body={dateBodyTemplate}/>
                     <Column field="updated_at" header="最新影片上傳時間" sortable sortFunction={customSort} dataType="date" style={{ minWidth: '14rem' }} body={lastUploadBodyTemplate} />
                     <Column field="uploaded_records" header="完成進度" sortable sortFunction={customSort} style={{ minWidth: '10rem' }} body={progressBodyTemplate} />
                     <Column headerStyle={{ width: '10rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} body={actionBodyTemplate} />
