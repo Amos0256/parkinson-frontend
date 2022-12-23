@@ -6,7 +6,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';
 import api from "utils/api";
 
-export default function AddPatient({ doctor, patients }){
+export default function AddPatient({ doctor, patients }) {
     const [displayBasic, setDisplayBasic] = useState(false);
     const [displayPassword, setDisplayPassword] = useState(false);
     const [patientname, setPatientname] = useState("");
@@ -24,48 +24,48 @@ export default function AddPatient({ doctor, patients }){
         { name: '女性', code: 'female' },
         { name: '其他', code: 'unknown' },
     ];
-    const [errorMessage,setErrorMessage] = useState({
-        patientname: '', 
-        personal_id: '', 
-        gender: '', 
-        birthday: '', 
-        phone: '', 
-        email: '', 
+    const [errorMessage, setErrorMessage] = useState({
+        patientname: '',
+        personal_id: '',
+        gender: '',
+        birthday: '',
+        phone: '',
+        email: '',
     });
 
     const getErrorMessage = (name) => {
-        return(
-        <small style={{color: 'red', display: 'block'}}>{errorMessage[name]}</small>
+        return (
+            <small style={{ color: 'red', display: 'block' }}>{errorMessage[name]}</small>
         )
     }
     function addpatient(patientname, personal_id, phone, email, gender, birthday) {
         return api("add-patient", "POST", {
-          name: patientname,
-          email,
-          phone,
-          gender,
-          birthday,
-          personal_id,
+            name: patientname,
+            email,
+            phone,
+            gender,
+            birthday,
+            personal_id,
         })
-          .then((res) => {
-            if (!res.errors) {
-                setDisplayBasic(false);
-                clearInput();
-                setPassword(res.password);
-                setDisplayPassword(true);
-            }    
-            else if (res.errors) {
-                setErrorMessage({patientname: res.errors.name, personal_id: res.errors.personal_id, email: res.errors.email, phone: res.errors.phone, birthday: res.errors.birthday, gender: res.errors.gender});
-            }
-            else {
-                alert('未知錯誤，請回報錯誤訊息');
-            }
-          })
-          .catch((e) => {
-            console.log('這是錯誤');
-            console.log(e);
-          })
-      }
+            .then((res) => {
+                if (!res.errors) {
+                    setDisplayBasic(false);
+                    clearInput();
+                    setPassword(res.password);
+                    setDisplayPassword(true);
+                }
+                else if (res.errors) {
+                    setErrorMessage({ patientname: res.errors.name, personal_id: res.errors.personal_id, email: res.errors.email, phone: res.errors.phone, birthday: res.errors.birthday, gender: res.errors.gender });
+                }
+                else {
+                    alert('未知錯誤，請回報錯誤訊息');
+                }
+            })
+            .catch((e) => {
+                console.log('這是錯誤');
+                console.log(e);
+            })
+    }
 
     const dialogFuncMap = {
         'displayBasic': setDisplayBasic
@@ -78,9 +78,9 @@ export default function AddPatient({ doctor, patients }){
     const onHide = (name) => {
         dialogFuncMap[`${name}`](false);
     }
-    
+
     const confirm = (name) => {
-        if (checkValidation() === true){
+        if (checkValidation() === true) {
             addpatient(patientname, personal_id, phone, email, gender, formatDate(birthday));
         }
     }
@@ -88,7 +88,7 @@ export default function AddPatient({ doctor, patients }){
         dialogFuncMap[`${name}`](false);
         clearInput();
     }
-    function clearInput(){
+    function clearInput() {
         setPatientname("");
         setPersonal_id("");
         setPhone("");
@@ -99,104 +99,104 @@ export default function AddPatient({ doctor, patients }){
         setErrorMessage({});
     }
 
-    function checkValidation(){
+    function checkValidation() {
         let valid = true;
         // name field
-        if (!patientname){
+        if (!patientname) {
             setErrorMessage(prevState => {
-                return {...prevState, patientname: '請輸入姓名'}
+                return { ...prevState, patientname: '請輸入姓名' }
             });
             valid = false;
         }
-        else{
+        else {
             setErrorMessage(prevState => {
-                return {...prevState, patientname: ''}
+                return { ...prevState, patientname: '' }
             });
         }
 
         // personal_id field
         let flag = true;
-        if (!/^[A-Z]+[0-9]{9}$/.test(personal_id)){
+        if (!/^[A-Z]+[0-9]{9}$/.test(personal_id)) {
             setErrorMessage(prevState => {
-                return {...prevState, personal_id: '請輸入正確的身分證號碼'}
+                return { ...prevState, personal_id: '請輸入正確的身分證號碼' }
             });
             flag = false;
         }
-        else if (personal_id === doctor.personal_id){
+        else if (personal_id === doctor.personal_id) {
             setErrorMessage(prevState => {
-                return {...prevState, personal_id: '此身分證號碼已存在'}
+                return { ...prevState, personal_id: '此身分證號碼已存在' }
             });
             flag = false;
         }
-        else{
-            for (let i = 0; i < patients.length; i++){
-                if (patients[i].personal_id === personal_id){
+        else {
+            for (let i = 0; i < patients.length; i++) {
+                if (patients[i].personal_id === personal_id) {
                     setErrorMessage(prevState => {
-                        return {...prevState, personal_id: '此身分證號碼已存在'}
+                        return { ...prevState, personal_id: '此身分證號碼已存在' }
                     });
                     flag = false;
                     break;
                 }
             }
         }
-        if (flag){
+        if (flag) {
             setErrorMessage(prevState => {
-                return {...prevState, personal_id: ''}
+                return { ...prevState, personal_id: '' }
             });
         }
-        else{
+        else {
             valid = false;
         }
 
         //email field
-        if (!/^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/.test(email)){
+        if (!/^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/.test(email)) {
             setErrorMessage(prevState => {
-                return {...prevState, email: '請輸入正確的電子郵件格式'}
+                return { ...prevState, email: '請輸入正確的電子郵件格式' }
             });
             valid = false;
         }
-        else{
+        else {
             setErrorMessage(prevState => {
-                return {...prevState, email: ''}
+                return { ...prevState, email: '' }
             });
         }
 
         // phone field
-        if (!phone){
+        if (!phone) {
             setErrorMessage(prevState => {
-                return {...prevState, phone: '請輸入連絡電話'}
+                return { ...prevState, phone: '請輸入連絡電話' }
             });
             valid = false;
         }
-        else{
+        else {
             setErrorMessage(prevState => {
-                return {...prevState, phone: ''}
+                return { ...prevState, phone: '' }
             });
         }
 
         // birthday field
-        if (!birthday){
+        if (!birthday) {
             setErrorMessage(prevState => {
-                return {...prevState, birthday: '請輸入完整的日期'}
+                return { ...prevState, birthday: '請輸入完整的日期' }
             });
             valid = false;
         }
-        else{
+        else {
             setErrorMessage(prevState => {
-                return {...prevState, birthday: ''}
+                return { ...prevState, birthday: '' }
             });
         }
 
         // gender field
-        if (!gender){
+        if (!gender) {
             setErrorMessage(prevState => {
-                return {...prevState, gender: '請輸入性別'}
+                return { ...prevState, gender: '請輸入性別' }
             });
             valid = false;
         }
-        else{
+        else {
             setErrorMessage(prevState => {
-                return {...prevState, gender: ''}
+                return { ...prevState, gender: '' }
             });
         }
 
@@ -204,14 +204,14 @@ export default function AddPatient({ doctor, patients }){
     }
 
     const formatDate = (value) => {
-        if (value == null){
+        if (value == null) {
             return null;
         }
         return new Date(value).toLocaleDateString('zh-TW', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit'
-          });
+        });
     }
 
     const onGenderChange = (e) => {
@@ -222,70 +222,70 @@ export default function AddPatient({ doctor, patients }){
     const renderFooter = (name) => {
         return (
             <div>
-                <Button label="取消" icon="pi pi-times" style={{color: 'rgb(82, 79, 79)'}} onClick={() => cancell(name)} className="p-button-text" />
-                <Button label="確認" icon="pi pi-check" style={{ background: '#4FC0FF', color: 'rgb(82, 79, 79)'}} onClick={() => confirm(name)} autoFocus />
+                <Button label="確認" icon="pi pi-check" onClick={() => confirm(name)} autoFocus />
+                <Button label="取消" icon="pi pi-times" onClick={() => cancell(name)} className="p-button-text" />
             </div>
         );
     }
 
     const footer2 = (
         <div>
-          <Button label="確定" style={{background: '#4FC0FF'}}
-          onClick={() => setDisplayPassword(false)}
-           />
+            <Button label="確定"
+                onClick={() => setDisplayPassword(false)}
+            />
         </div>
     );
 
     return (
         <div className="dialog-demo">
             <div className="card">
-            <Dialog
-                header={"新增成功"}
-                footer={footer2}
-                visible={displayPassword}
-                style={{ width: "350px" }}
-                onHide={() => setDisplayPassword(false)}
-            >
-                自動產生密碼如下，請盡快通知患者使用新密碼登入，並修改密碼!
-                <div className="p-inputgroup" style={{ marginTop: "20px" }}>
-                <span className="p-inputgroup-addon">
-                    <i className="pi pi-key"></i>
-                </span>
-                <InputText
-                    type={showPw ? "text" : "password"}
-                    value={password}
-                    placeholder="密碼"
-                    readOnly
-                />
-                <span
-                    className="p-inputgroup-addon"
-                    style={{ backgroundColor: "white", cursor: "pointer" }}
-                    onClick={() => setShowPw(!showPw)}
+                <Dialog
+                    header={"新增成功"}
+                    footer={footer2}
+                    visible={displayPassword}
+                    style={{ width: "350px" }}
+                    onHide={() => setDisplayPassword(false)}
                 >
-                    <i className={`pi ${showPw ? "pi-eye-slash" : "pi-eye"}`}></i>
-                </span>
-                </div>
+                    自動產生密碼如下，請盡快通知患者使用新密碼登入，並修改密碼!
+                    <div className="p-inputgroup" style={{ marginTop: "20px" }}>
+                        <span className="p-inputgroup-addon">
+                            <i className="pi pi-key"></i>
+                        </span>
+                        <InputText
+                            type={showPw ? "text" : "password"}
+                            value={password}
+                            placeholder="密碼"
+                            readOnly
+                        />
+                        <span
+                            className="p-inputgroup-addon"
+                            style={{ backgroundColor: "white", cursor: "pointer" }}
+                            onClick={() => setShowPw(!showPw)}
+                        >
+                            <i className={`pi ${showPw ? "pi-eye-slash" : "pi-eye"}`}></i>
+                        </span>
+                    </div>
                 </Dialog>
-                <Button label="新增病患" icon="pi pi-fw pi-pencil" style={{background: 'white', margin: '10px', border: '0px'}} onClick={() => onClick('displayBasic')} />
-                <Dialog header="新增病患" visible={displayBasic} style={{ width: '60rem', height: 'auto'}} footer={renderFooter('displayBasic')} onHide={() => onHide('displayBasic')}>
-                    <div className='dialog-content-1' style={{display:'flex', flexDirection:'row'}} >
+                <Button label="新增病患" icon="pi pi-fw pi-pencil" style={{ background: 'white', margin: '10px', border: '0px' }} onClick={() => onClick('displayBasic')} />
+                <Dialog header="新增病患" visible={displayBasic} style={{ width: '60rem', height: 'auto' }} footer={renderFooter('displayBasic')} onHide={() => onHide('displayBasic')}>
+                    <div className='dialog-content-1' style={{ display: 'flex', flexDirection: 'row' }} >
                         <div className='dialog-input' >
                             <h5>患者姓名</h5>
-                            <InputText value={patientname}  onChange={(e) => setPatientname(e.target.value)} />
+                            <InputText value={patientname} onChange={(e) => setPatientname(e.target.value)} />
                             {getErrorMessage('patientname')}
                         </div>
                         <div className='dialog-input'>
                             <h5>身分證字號</h5>
-                            <InputText value={personal_id}  onChange={(e) => setPersonal_id(e.target.value)} />
+                            <InputText value={personal_id} onChange={(e) => setPersonal_id(e.target.value)} />
                             {getErrorMessage('personal_id')}
                         </div>
                         <div className='dialog-input'>
                             <h5>性別</h5>
-                            <Dropdown value={selectedGender} options={genderchoice} optionLabel="name" onChange={onGenderChange} placeholder="選擇性別"/>
+                            <Dropdown value={selectedGender} options={genderchoice} optionLabel="name" onChange={onGenderChange} placeholder="選擇性別" />
                             {getErrorMessage('gender')}
                         </div>
                     </div>
-                    <div className='dialog-content-1' style={{display:'flex', flexDirection:'row'}} >
+                    <div className='dialog-content-1' style={{ display: 'flex', flexDirection: 'row' }} >
                         <div className='dialog-input' >
                             <h5>生日(請輸入西元年月日)</h5>
                             <Calendar value={birthday} mask="9999-99-99" onChange={(e) => setBirthday(e.target.value)} dateFormat="yy-mm-dd" />
@@ -301,7 +301,7 @@ export default function AddPatient({ doctor, patients }){
                             <InputText value={email} onChange={(e) => setEmail(e.target.value)} />
                             {getErrorMessage('email')}
                         </div>
-                    </div> 
+                    </div>
                 </Dialog>
             </div>
         </div>

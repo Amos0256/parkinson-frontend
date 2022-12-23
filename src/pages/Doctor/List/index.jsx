@@ -27,7 +27,7 @@ export default function Doctor() {
       })
       .catch((e) => {
         alert(e.message);
-        navigate("/doctor");
+        navigate("/login");
       });
     }
     else{

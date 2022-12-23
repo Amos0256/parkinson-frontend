@@ -83,7 +83,7 @@ export default function Table({ patients }) {
         }
         let total = rowData.missions[missions_count-1]["all_records"];
         let completed = rowData.missions[missions_count-1]["uploaded_records"];
-        return <ProgressBar value={Math.round((completed*100)/total)} color='#4FC0FF' displayValueTemplate={displayValueTemplate} ></ProgressBar>;
+        return <ProgressBar value={Math.round((completed*100)/total)} displayValueTemplate={displayValueTemplate} ></ProgressBar>;
     }  
     const actionBodyTemplate = (rowData) => {
         return <Button label="檢視" onClick={() => {checkList(rowData.id);}} style={{ background: '#f8f9fa', color: 'rgb(82, 79, 79)', border: '0px' }} className='button-check'></Button>;
