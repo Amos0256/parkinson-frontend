@@ -30,6 +30,7 @@ export default function ResultDataTable() {
         .then(res => {
           let missions = res.missions;
           record.length = 0;
+          console.log(missions);
           for (let i = 0; i < missions.length; i++){
             let temp = missions[i].records;
             for (let j = 0; j < temp.length; j++){

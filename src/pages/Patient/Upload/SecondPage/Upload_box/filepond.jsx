@@ -60,7 +60,7 @@ export default function FileUpload() {
             
             api('upload-record','POST',
                 {
-                    "submit_time": `${form_context.Form.date} ${form_context.Form.time}`,
+                    "record_time": `${form_context.Form.date} ${form_context.Form.time}`,
                     "category": form_context.Form.option,
                     "location": form_context.Form.place,
                     "mission_id":record[cur_record_id].mission_id,

@@ -11,13 +11,13 @@
 .p-fileupload-buttonbar {
     height: 70px;
 }
-.upload-empty {
+/* .upload-empty {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: center;
     
-}
+} */
 .filepond-upload {
     margin-top: 150px;
     margin-left: auto;
