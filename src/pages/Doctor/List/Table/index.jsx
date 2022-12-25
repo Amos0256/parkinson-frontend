@@ -105,11 +105,10 @@ export default function Table({ patients }) {
             let value1 = null;
             let value2 = null;
 
-            if (l1 != 0) {
+            if (l1 !== 0) {
                 value1 = data1.missions[l1 - 1][event.field];
-                console.log(value1)
             }
-            else if (l2 != 0) {
+            if (l2 !== 0) {
                 value2 = data2.missions[l2 - 1][event.field];
             }
 
