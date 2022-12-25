@@ -40,20 +40,6 @@ export default function DropdownDemo() {
     } else navigate("/patient");
   }
 
-  // if(id === 2) {
-  //     if(location.state.option === "grip") {
-  //         pos = { name: '手部抓握'};
-  //     }
-  //     else if (location.state.option === "pinch") {
-  //         pos = { name: '手指捏握'};
-  //     }
-  //     else if (location.state.option === "turn") {
-  //         pos = { name: '手掌翻面'};
-  //     }
-  //     else if(location.state.option === "lift") {
-  //         pos = { name: '抬腳'};
-  //     }
-  // }
   const [selectedPosition, setselectedPosition] = useState(pos);
 
   const handPos = [
@@ -89,6 +75,7 @@ export default function DropdownDemo() {
 
     // form_context.setForm({...form_context.Form, option:e.value.name})
   };
+
   useEffect(() => {
     if (selectedPosition !== null) {
       let value = JSON.stringify(selectedPosition);
@@ -115,23 +102,12 @@ export default function DropdownDemo() {
       }
     }
   }, [selectedPosition]);
-  // useEffect(() => {
-  //     //console.log(selectedPosition.name);
-  //     if(selectedPosition === null) {
-  //         msg.setInputState({...msg.InputState, select:''});
-  //     }
-  //     if(selectedPosition !== null ) {
-
-  //         form_context.setForm({...form_context.Form, option:selectedPosition.name});
-  //         msg.setInputState({...msg.InputState, select:1});
-  //     }
-  // }, [selectedPosition]);
 
   return (
     <div>
       <div className="card">
         <div className="dropdown-demo">
-          <div className="space">項目</div>
+          <div className="space">檢測項目</div>
           <Dropdown
             value={selectedPosition}
             options={handPos}

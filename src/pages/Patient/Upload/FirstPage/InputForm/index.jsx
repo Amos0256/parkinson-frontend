@@ -19,12 +19,12 @@ export default function InputForm (){
         <div>
             <CalendarDemo /> 
             <div className="card inputtext-demo">
-                <div className='space'>地點</div>
+                <div className='space'>拍攝地點</div>
                 <InputText value={value} 
                 onChange={(e) => {
                     setValue(e.target.value);
                     form_context.setForm({...form_context.Form, place:e.target.value});
-                }} placeholder='請輸入地點'/>
+                }} placeholder='請輸入拍攝地點'/>
             </div>
             <DropdownDemo />
         </div>

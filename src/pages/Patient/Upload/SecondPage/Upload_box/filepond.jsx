@@ -53,10 +53,10 @@ export default function FileUpload() {
             //console.log(fileState);
             const cur_file = filepondRef.current.getFiles();
             
-            console.log(form_context.Form.date);
-            console.log(form_context.Form.time);
-            console.log(form_context.Form.place);
-            console.log(form_context.Form.option);
+            // console.log(form_context.Form.date);
+            // console.log(form_context.Form.time);
+            // console.log(form_context.Form.place);
+            // console.log(form_context.Form.option);
             
             api('upload-record','POST',
                 {

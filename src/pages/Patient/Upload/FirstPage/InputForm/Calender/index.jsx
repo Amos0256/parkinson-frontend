@@ -41,7 +41,7 @@ export default function CalendarDemo() {
         <div className='calendar-layout'>
             <div className="card calendar-demo">
                 <div className="p-fluid">
-                    <div className='space'>日期</div>
+                    <div className='space'>拍攝日期</div>
                         <div className="calender">
                             <Calendar id="basic" dateFormat="yy/mm/dd" value={date1} 
                             onChange={(e) => {
@@ -50,16 +50,16 @@ export default function CalendarDemo() {
                                 
                             }}
                             showButtonBar
-                            placeholder="請輸入日期"/>
+                            placeholder="請輸入拍攝日期"/>
                         </div>
-                    <div className='space'>時間</div>
+                    <div className='space'>拍攝時間</div>
                         <div className="time">
                             <Calendar id="time24" value={time} 
                             onChange={(e) => {
                                 setTime(e.value);
                                 form_context.setForm({...form_context.Form, time:formatTime(e.value)});
                             }}  
-                            timeOnly hourFormat="24" placeholder='請輸入時間'/>
+                            timeOnly hourFormat="24" placeholder='請輸入拍攝時間'/>
                         </div>
                     
                 </div>
