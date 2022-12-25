@@ -74,21 +74,21 @@ export default function Table({ patients }) {
     const dateBodyTemplate = (rowData) => {
         let missions_count = rowData.missions.length;
         if (missions_count == 0) {
-            return null;
+            return "N/A";
         }
         return formatTime(rowData.missions[missions_count - 1]["created_at"]);
     }
     const lastUploadBodyTemplate = (rowData) => {
         let missions_count = rowData.missions.length;
         if (missions_count == 0) {
-            return null;
+            return "N/A";
         }
         return formatTime(rowData.missions[missions_count - 1]["latest_video_uploaded_at"]);
     }
     const progressBodyTemplate = (rowData) => {
         let missions_count = rowData.missions.length;
         if (missions_count == 0) {
-            return null;
+            return "N/A";
         }
         let total = rowData.missions[missions_count - 1]["all_records"];
         let completed = rowData.missions[missions_count - 1]["uploaded_records"];
