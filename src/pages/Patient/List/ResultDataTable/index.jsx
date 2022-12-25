@@ -29,17 +29,19 @@ export default function ResultDataTable() {
       else {
         api("assoc-record", "GET")
         .then(res => {
-          let missions = res.missions;
-          record.length = 0;
-          for (let i = 0; i < missions.length; i++){
-            let temp = missions[i].records;
-            for (let j = 0; j < temp.length; j++){
-              (temp[j])['times'] = "第" + (i + 1) + "次";
-              record.push(temp[j]);
+          if(res.missions.length !== 0) {
+            let missions = res.missions;
+            record.length = 0;
+            for (let i = 0; i < missions.length; i++){
+              let temp = missions[i].records;
+              for (let j = 0; j < temp.length; j++){
+                (temp[j])['times'] = "第" + (i + 1) + "次";
+                record.push(temp[j]);
+              }
             }
+            dataProcess();
+            setRecords(record);
           }
-          dataProcess();
-          setRecords(record);
         })
         .catch((e) => {
           alert(e.message);

@@ -28,38 +28,40 @@ export default function Progress() {
       else {
         api("assoc-record", "GET")
         .then(res => {
-          let mission_len = (res.missions).length;
-          let mission = res.missions[mission_len - 1];
-          record.length = 0;
-          for (let i = 0; i < (mission.records).length; i++){
-            record.push(mission.records[i]);
-          }
-          setMissionNum(record.length);
-          
-          setProcess(record.length);
-          for(let i = 0; i < record.length; i++) {
-            if(record[i].category === "手部抓握") {
-              if(record[i].status === "未上傳") {
-                  setGripVisible(true);
+          if(res.missions.length !== 0) {
+            let mission_len = (res.missions).length;
+            let mission = res.missions[mission_len - 1];
+            record.length = 0;
+            for (let i = 0; i < (mission.records).length; i++){
+              record.push(mission.records[i]);
+            }
+            setMissionNum(record.length);
+            
+            setProcess(record.length);
+            for(let i = 0; i < record.length; i++) {
+              if(record[i].category === "手部抓握") {
+                if(record[i].status === "未上傳") {
+                    setGripVisible(true);
+                    setProcess(prev => prev - 1);
+                }
+              }
+              else if(record[i].category === "手指捏握") {
+                if(record[i].status === "未上傳") {
+                  setPinchVisible(true);
                   setProcess(prev => prev - 1);
+                }
               }
-            }
-            else if(record[i].category === "手指捏握") {
-              if(record[i].status === "未上傳") {
-                setPinchVisible(true);
-                setProcess(prev => prev - 1);
+              else if(record[i].category === "手掌翻面") {
+                if(record[i].status === "未上傳") {
+                  setTurnVisible(true);
+                  setProcess(prev => prev - 1);
+                }
               }
-            }
-            else if(record[i].category === "手掌翻面") {
-              if(record[i].status === "未上傳") {
-                setTurnVisible(true);
-                setProcess(prev => prev - 1);
-              }
-            }
-            else {
-              if(record[i].status === "未上傳") {
-                setLiftVisible(true);
-                setProcess(prev => prev - 1);
+              else {
+                if(record[i].status === "未上傳") {
+                  setLiftVisible(true);
+                  setProcess(prev => prev - 1);
+                }
               }
             }
           }         
