@@ -5,7 +5,8 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import { FilterMatchMode } from 'primereact/api';
-import { useNavigate } from 'react-router-dom'
+import { InputText } from "primereact/inputtext";
+import { json, useNavigate } from 'react-router-dom'
 import api from 'utils/api';
 import useAuth from 'hooks/useAuth';
 
@@ -30,7 +31,6 @@ export default function ResultDataTable() {
         .then(res => {
           let missions = res.missions;
           record.length = 0;
-          console.log(missions);
           for (let i = 0; i < missions.length; i++){
             let temp = missions[i].records;
             for (let j = 0; j < temp.length; j++){
@@ -53,12 +53,6 @@ export default function ResultDataTable() {
   
   function dataProcess() {
     for(let i = 0; i < record.length; i++) {
-      if(record[i].submit_time != null) {
-        const date = new Date(record[i].submit_time);
-        record[i].submit_time = date;
-        (record[i])['submit_date'] = date;
-      }
-      
       if(record[i].result != null) {
         let temp = (record[i].result).split(",");
         let left = temp[0].replace(/[^0-9]/ig,"");
@@ -68,27 +62,29 @@ export default function ResultDataTable() {
     }
   }
 
-  const [filter, setFilter] = useState({
-    'category': { value: null },
-    'submit_date': { value: null, matchMode: FilterMatchMode.DATE_IS },
-    'status': { value: null }
+  const [filters, setFilters] = useState({
+    global: {
+      value: "",
+      matchMode: FilterMatchMode.CONTAINS,
+    },
+    category: {
+      value: null,
+      matchMode: FilterMatchMode.CONTAINS,
+    },
+    shoot_time: {
+      value: null,
+      matchMode: "date-filter",
+    },
+    record_time: {
+      value: null,
+      matchMode: "date-filter",
+    },
+    status: {
+      value: null,
+      matchMode: FilterMatchMode.EQUALS,
+    },
   });
-
-  const initFilter = () => {
-    setFilter({
-      'category': { value: null },
-      'submit_date': { value: null, matchMode: FilterMatchMode.DATE_IS },
-      'status': { value: null }
-    });
-  };
-
-  useEffect(() => {
-    initFilter();;
-  }, []);
-
-  const clearFilter = () => {
-    initFilter();
-  }
+  const [globalFilterValue, setGlobalFilterValue] = useState("");
 
   const category = [
     '手部抓握', '手指捏握', '手掌翻面', '抬腳'
@@ -97,6 +93,29 @@ export default function ResultDataTable() {
   const statuses = [
     '已檢閱', '待檢閱', '未處理', '未上傳'
   ];
+
+  const filterClearTemplate = (options) => {
+    return (
+      <Button
+        type="button"
+        onClick={options.filterClearCallback}
+        className="p-button-secondary p-button-text"
+      >
+        取消
+      </Button>
+    );
+  };
+
+  const filterApplyTemplate = (options) => {
+    return (
+      <Button
+        type="button"
+        onClick={options.filterApplyCallback}
+      >
+        篩選
+      </Button>
+    );
+  };
 
   const categoryFilterTemplate = (options) => {
     return (
@@ -111,8 +130,18 @@ export default function ResultDataTable() {
     );
   }
 
-  const dateBodyTemplate = (rowData) => {
-    return formatDate(rowData.submit_date);
+  const shootDateBodyTemplate = (rowData) => {
+    if(rowData.media.length)
+      return formatDate(new Date(rowData.media[0].created_at));
+    else
+      return "未上傳";
+  }
+
+  const recordDateBodyTemplate = (rowData) => {
+    if(rowData.record_time)
+      return formatDate(new Date(rowData.record_time));
+    else
+      return "未上傳";
   }
   
   const dateFilterTemplate = (options) => {
@@ -121,37 +150,23 @@ export default function ResultDataTable() {
         value={options.value}
         onChange={(e) => options.filterCallback(e.value, options.index)} 
         dateFormat="yy/mm/dd" 
-        placeholder="yyyy/mm/dd" 
+        placeholder="年/月/日" 
         mask="9999/99/99"
       />
     )
   }
   
   const formatDate = (value) => {
-    if(value != null){
-      let date = new Date(value).toLocaleDateString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      });
-  
-      return date;
-    }
-  }
-  
-  const timeBodyTemplate = (rowData) => {
-    return formatTime(rowData.submit_time);
-  }
-
-  const formatTime = (value) => {
-    if(value != null){
-      let time = new Date(value).toLocaleTimeString('zh-TW', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      });
-      return time;
-    }
+    return value
+      ? value.toLocaleDateString("zh-TW", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      })
+      : "N/A";
   }
 
   const statusBodyTemplate = (rowData) => {
@@ -176,10 +191,33 @@ export default function ResultDataTable() {
     return <span className={`category-result status-${option}`}>{option}</span>;
   }
 
+  const onGlobalFilterChange = (e) => {
+    const value = e.target.value;
+    let _filters = { ...filters };
+    _filters["global"].value = value;
+
+    setFilters(_filters);
+    setGlobalFilterValue(value);
+  };
+
   const renderHeader = () => {
     return (
-      <div className="flex justify-content-between">
-        <Button type="button" icon="pi pi-filter-slash" label="清除" className="p-button-outlined" onClick={clearFilter} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h3>檢測紀錄</h3>
+        <span className="p-input-icon-left">
+          <i className="pi pi-search" />
+          <InputText
+            value={globalFilterValue}
+            onChange={onGlobalFilterChange}
+            placeholder="關鍵字搜尋"
+          />
+        </span>
       </div>
     )
   }
@@ -190,7 +228,7 @@ export default function ResultDataTable() {
     <DataTable
       value={records}
       emptyMessage="無對應資料"
-      filters={filter}
+      filters={filters}
       header={header}
     >
       <Column
@@ -203,27 +241,38 @@ export default function ResultDataTable() {
         header="檢測項目"
         sortable
         filter
+        filterApply={filterApplyTemplate}
+        filterClear={filterClearTemplate}
         filterElement={categoryFilterTemplate}
         showFilterMenuOptions={false}
         showAddButton={false}
         filterMenuStyle={{ width: '14rem' }}
       />
       <Column
-        field="submit_date"
-        header="上傳日期"
+        field="record_time"
+        header="拍攝時間"
         dataType="date"
-        body={dateBodyTemplate}
+        body={recordDateBodyTemplate}
         sortable
         filter
+        filterApply={filterApplyTemplate}
+        filterClear={filterClearTemplate}
         filterElement={dateFilterTemplate}
         showFilterMenuOptions={false}
         showAddButton={false}
       />
       <Column
-        field="submit_time"
+        field="shoot_time"
         header="上傳時間"
-        body={timeBodyTemplate}
+        dataType="date"
+        body={shootDateBodyTemplate}
         sortable
+        filter
+        filterApply={filterApplyTemplate}
+        filterClear={filterClearTemplate}
+        filterElement={dateFilterTemplate}
+        showFilterMenuOptions={false}
+        showAddButton={false}
       />
       <Column
         field="location"
@@ -240,6 +289,8 @@ export default function ResultDataTable() {
         body={statusBodyTemplate} 
         sortable 
         filter 
+        filterApply={filterApplyTemplate}
+        filterClear={filterClearTemplate}
         filterElement={statusFilterTemplate} 
         showFilterMenuOptions={false} 
         showAddButton={false} 

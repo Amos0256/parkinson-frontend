@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { ProgressBar } from 'primereact/progressbar';
 import { useNavigate } from 'react-router-dom';
-import './index.css';
 import api from 'utils/api';
 import useAuth from 'hooks/useAuth';
-import { upload_button } from 'pages/Patient/Upload';
+import './index.css';
 
 export default function Progress() {
   const { loading, isLogin, user } = useAuth();
