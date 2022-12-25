@@ -131,8 +131,8 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
     else return "錯誤";
   };
 
-  const uploadTimeBodyTemplate = ({ submit_time }) => {
-    if (submit_time) return formatDate(new Date(submit_time));
+  const uploadTimeBodyTemplate = ({ record_time }) => {
+    if (record_time) return formatDate(new Date(record_time));
     else return "未上傳";
   };
 
@@ -155,8 +155,8 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
       待檢閱: 2,
       已檢閱: 3,
     };
-    const bgcolors = ["#CFCFCF", "#FFD8B2", "#B3E5FC", "#C8E6C9"];
-    const colors = ["#6F6F6F", "#805B36", "#23547B", "#346C37"];
+    const bgcolors = ["#ffcdd2", "#FFD8B2", "#B3E5FC", "#C8E6C9"];
+    const colors = ["#c63737", "#805B36", "#23547B", "#346C37"];
     return (
       <span
         style={{

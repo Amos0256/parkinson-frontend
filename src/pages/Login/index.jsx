@@ -5,22 +5,22 @@ import { Button } from "primereact/button";
 import useAuth, { AuthContext } from "hooks/useAuth";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Dialog } from "primereact/dialog";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
   const { user, login, logout, isLogin, loading } = useAuth();
-
   const navgate = useNavigate();
+  const [forgetPasswordModal, setForgetPasswordModal] = useState(false);
 
   useEffect(() => {
     if (loading) return;
     if (isLogin) {
       if (user.roles[0].id === 1) {
         navgate("/doctor");
-      }
-      else if (user.roles[0].id === 2) {
+      } else if (user.roles[0].id === 2) {
         navgate("/patient");
       }
     }
@@ -32,6 +32,7 @@ export default function Login() {
         display: "flex",
         width: "100vw",
         height: "100vh",
+        boxSizing: "border-box",
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -74,9 +75,10 @@ export default function Login() {
         </div>
         <div style={{ textAlign: "center", marginTop: "40px" }}>
           <Button
+            className="p-button-link"
             label="忘記密碼"
             onClick={() => {
-              logout();
+              setForgetPasswordModal(true);
             }}
           />
         </div>
@@ -86,11 +88,23 @@ export default function Login() {
             icon="pi pi-arrow-right"
             iconPos="right"
             onClick={() => {
-              login(username, password);
+              if (username && password) login(username, password);
+              else alert("身分證字號與密碼不得空白!");
             }}
           />
         </div>
-        {JSON.stringify(user, " ")}
+        <Dialog
+          header={"忘記密碼說明"}
+          visible={forgetPasswordModal}
+          onHide={() => setForgetPasswordModal(false)}
+          style={{ textAlign: "left", width: "500px" }}
+        >
+          由於安全性與個人資料隱私問題：
+          <br />
+          1. 若您是醫師，請聯絡系統管理員，以協助重置密碼。
+          <br />
+          2. 若您是病患，請聯絡您的主治醫師，以協助重置密碼。
+        </Dialog>
       </Card>
     </div>
   );

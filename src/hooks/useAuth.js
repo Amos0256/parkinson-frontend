@@ -62,16 +62,7 @@ export default function useAuth() {
 
   function logout() {
     setLoading(true);
-    fetch("http://140.123.242.78/api/logout", {
-      credentials: "include",
-      headers: {
-        accept: "application/json",
-        authorization: "Bearer " + token,
-        "content-type": "application/json;charset=UTF-8",
-        "x-csrf-token": "",
-      },
-      method: "POST",
-    }).then((res) => {
+    api("logout", "POST").then((res) => {
       clearInfo();
       navigate("/login");
     });
@@ -84,6 +75,7 @@ export default function useAuth() {
       password,
     })
       .then(({ user, token }) => {
+        if(!user) throw new Error("登入失敗")
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", token);
         setUser(user);
@@ -92,15 +84,13 @@ export default function useAuth() {
         setLogin(true);
         switch (user.roles[0].id) {
           case 1:
-            alert("醫師[這只是提示/不是feature]");
             navigate("/doctor");
             break;
           case 2:
-            alert("病患[這只是提示/不是feature]");
             navigate("/patient");
             break;
           default:
-            alert("出事了");
+            alert("發生嚴重錯誤");
         }
       })
       .catch((e) => {
