@@ -107,12 +107,14 @@ export default function Table({ patients }) {
 
             if (l1 != 0) {
                 value1 = data1.missions[l1 - 1][event.field];
+                console.log(value1)
             }
             else if (l2 != 0) {
                 value2 = data2.missions[l2 - 1][event.field];
             }
 
             let result = null;
+            
 
             if (value1 == null && value2 != null)
                 result = -1;
@@ -142,7 +144,7 @@ export default function Table({ patients }) {
                     globalFilterFields={['name']} emptyMessage="沒有任何患者資料">
                     <Column field="name" header="姓名" sortable style={{ minWidth: '14rem' }} body={nameBodyTemplate} />
                     <Column field="created_at" header="上次指派任務時間" sortable sortFunction={customSort} dataType="date" style={{ minWidth: '8rem' }} body={dateBodyTemplate} />
-                    <Column field="updated_at" header="最新影片上傳時間" sortable sortFunction={customSort} dataType="date" style={{ minWidth: '14rem' }} body={lastUploadBodyTemplate} />
+                    <Column field="latest_video_uploaded_at" header="最新影片上傳時間" sortable sortFunction={customSort} dataType="date" style={{ minWidth: '14rem' }} body={lastUploadBodyTemplate} />
                     <Column field="uploaded_records" header="完成進度" sortable sortFunction={customSort} style={{ minWidth: '10rem' }} body={progressBodyTemplate} />
                     <Column headerStyle={{ width: '10rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} body={actionBodyTemplate} />
                 </DataTable>
