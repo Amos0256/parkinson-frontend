@@ -125,7 +125,7 @@ export default function EachPatient() {
                 {
                   male: "男",
                   female: "女",
-                  else: "其他",
+                  unknown: "其他",
                 }[currentUser.gender]
               }
             </div>
