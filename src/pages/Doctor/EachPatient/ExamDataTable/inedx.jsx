@@ -97,9 +97,9 @@ export default function ExamDataTable({ modifyRecords, loading, data }) {
       const json = JSON.parse(result);
       return (
         <React.Fragment>
-          左：{json.left}
+          左：{json.left || 0}
           <br />
-          右：{json.right}
+          右：{json.right || 0}
         </React.Fragment>
       );
     } catch {
